@@ -1,4 +1,3 @@
-from copy import deepcopy
 class Projectile:
 
     """Simulates the flight of simple projectiles near the earth's
@@ -53,10 +52,6 @@ class Projectile:
         
         return [x1 - x2 for (x1, x2) in zip(targetPos, vector)]
         
-        
-        
-        
-
     @staticmethod
     def getY(self):
         "Returns the y position (height) of this projectile."
