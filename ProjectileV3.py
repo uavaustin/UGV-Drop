@@ -48,7 +48,7 @@ class ProjectileV3:
         self.air_density = 1.225
         self.drag_coeff = 5.0
         self.wind_velocity = [-0.0001,-0.00001, -0.00001]
-        self.projectileRadius = 1;
+        self.projectileRadius = 1
         self.surfaceArea = math.pi * self.projectileRadius**2
 
 
@@ -90,7 +90,6 @@ class ProjectileV3:
 
         vector = np.array([vectorX, vectorY, vectorZ])
         
-        
         return np.subtract(targetPos, vector)#[x1 - x2 for (x1, x2) in zip(targetPos, vector)]
 
     def groundToAir(self):
@@ -102,17 +101,17 @@ class ProjectileV3:
         return coordinates
 
     def xyzToLatLong(self, x, y):
-        #lat = y / self.earthRadius + self.originLat
-        #lon = math.asin(math.sin(x / self.earthRadius / 2) / math.cos(lat)) * 2 + self.originLon
-        lat = (x / 111120.0) + self.originLat
-        lon = ((y / (self.convergence * 111120.0)) + self.originLon)
+        lat = y / self.earthRadius + self.originLat
+        lon = np.arcsin(np.sin(x / self.earthRadius / 2) / np.cos(lat)) * 2 + self.originLon
+        #lat = (x / 111120.0) + self.originLat
+        #lon = ((y / (self.convergence * 111120.0)) + self.originLon)
         return [lat, lon]
 
     def latLongToXYZ(self, lat, lon):
-        #x = 2 * self.earthRadius * math.asin(math.cos(lat) * math.sin((lon - self.originLon) / 2))
-        #z = self.earthRadius * (lat - self.originLat)
-        x = (lon - self.originLon) * self.convergence * 111120
-        z = (lat - self.originLat) * 111120
+        x = 2 * self.earthRadius * math.asin(math.cos(lat) * math.sin((lon - self.originLon) / 2))
+        z = self.earthRadius * (lat - self.originLat)
+        #x = (lon - self.originLon) * self.convergence * 111120
+        #z = (lat - self.originLat) * 111120
         return [x, z]
     
     def updatePosition(self, xVelocity, zVelocity, lat, lon, altitude):
