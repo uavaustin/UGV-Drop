@@ -5,7 +5,6 @@ Inputs: (complete later when done)
     Drag
 
 Assumptions:
-    The drone is moving along the axis of the intended target.
     The drone is moving at constant velocity.
     The projectile continues to move along the axis when it is dropped.
 
@@ -143,8 +142,18 @@ class dropCalculations:
         #Other Properties
         self.chuteDepTime = 0.00 #chuteDepTime is the amount of time it takes for the chute to fully deploy
 
-    def updateLocation(self):
-        return
+    def updateLocation(x: float, y: float, z: float):
+        self.projX = x
+        self.projY = y
+        self.projZ = z
+
+    def updateVelocity(x: float, y: float, z: float):
+        self.xV = x
+        self.yV = y
+        self.zV = z
+
+    def updateAirDensity(newDensity: float):
+        self.airDensity = newDensity
 
     def calcDescentVelocity(self):
         velocity = 2*(mass*g)
