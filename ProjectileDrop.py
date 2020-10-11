@@ -13,7 +13,10 @@ Assumptions:
 
 """
 
+import math
+
 """
+----- dropProjectile NO LONGER NEEDED -----
 The dropProjectile class contains the properties of the UGV projectile that is deployed from the UAV.
     @param xV The velocty of the UGV along the axis of the target.
     @param yV The velocity of the UGV perpendicular to the ground.
@@ -41,13 +44,44 @@ class dropProjectile:
         return self.xAcceleration
 
 """
-The pointLocation class specifies a point in three dimensions
+The point class specifies a point in three dimensions
     @param xComp The X Component running laterally to the ground
     @param xComp The Y Component perpendicular to the ground. The ground is presumed to be 0
     @param xComp The Z Component longitudinal to the ground
 
 """
-class pointLocation:
+class point:
+    def __init__(self, xComp: float, yComp: float, zComp: float):
+        self.x = xComp
+        self.y = yComp
+        self.z = zComp
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+
+    def getZ(self):
+        return self.z
+
+    def setX(self, newX: float):
+        self.x = newX
+
+    def setY(self, newY: float):
+        self.y = newY
+
+    def setY(self, newZ: float):
+        self.z = newZ
+
+"""
+The vector class specifies a vector in three dimensions
+    @param xComp The X Component running laterally to the ground
+    @param xComp The Y Component perpendicular to the ground. The ground is presumed to be 0
+    @param xComp The Z Component longitudinal to the ground
+
+"""
+class vector:
     def __init__(self, xComp: float, yComp: float, zComp: float):
         self.x = xComp
         self.y = yComp
@@ -62,6 +96,7 @@ class pointLocation:
     def getz():
         return self.z
 
+
 """ (still working on it)
 The computeDropLocation specifices the location and time? when a projectile should dropped to land on a target
     @param dropProj The object that will dropped of the dropProjectile class that specifies its properties
@@ -71,43 +106,78 @@ The computeDropLocation specifices the location and time? when a projectile shou
 
 """
 
-class computeDropLocation:
+class dropCalculations:
     def __init__(self,
-                dropProj: dropProjectile,
-                projectileLoc: pointLocation,
-                targetLoc: pointLocation,
-                coeffOfDrag: float):
-        self.dropProjectile = proj
-        self.projLoc = projLoc
-        self.tarLoc = tarLoc
-        self.dragCoeff = 0;
+                velocityVector: vector,
+                projectileLoc: point,
+                targetLoc: point,
+                coeffOfDrag: float,
+                altitude: float,
+                dropProjSysMass: float, #mass of parachute and UGV system
+                parachuteArea: float):
+
+        self.dragCoeff = 1.0;
         if coeffOfDrag != 0:
             self.dragCoeff = coeffOfDrag
+        self.mass = dropProjMass
+        self.g = 9.81 #acceleration due to gravity
+        self.airDensity = 1.225 #in kg/m^3
+        self.chuteArea = parachuteArea
 
         #Specific, derived values: Projectile Location
-        self.projX = self.projectileSpot.getX();
-        self.projY = self.projectileSpot.getY();
-        self.projZ = self.projectileSpot.getZ();
+        self.projX = projectileLoc.getX();
+        self.projY = projectileLoc.getY();
+        self.projZ = projectileLoc.getZ();
 
         #Specific, derived values: Target Location
-        self.tarX = self.tarLoc.getX();
-        self.tarY = self.tarLoc.getY();
-        self.tarZ = self.tarLoc.getZ();
+        self.tarX = targetLoc.getX();
+        self.tarY = targetLoc.getY();
+        self.tarZ = targetLoc.getZ();
+
+        #velocities
+        self.vX = veloctyVector,getX();
+        self.vY = veloctyVector.getY();
+        self.vZ = veloctyVector.getZ();
+        self.vYpost = 0 #velocity vector after chute is deployed
+
+        #Other Properties
+        self.chuteDepTime = 0.00 #chuteDepTime is the amount of time it takes for the chute to fully deploy
 
     def updateLocation(self):
         return
 
-    def currentDistance(self):
-        return
-
-    def timeToReachGround(self):
-        return
-
-    def dragFactor(self):
-        return
+    def calcDescentVelocity(self):
+        velocity = 2*(mass*g)
+        velocity = velocity/(self.dragCoeff*self.airDensity*self.chuteArea)
+        velocity = math.sqrt(velocity)
+        self.vYpost = velocity
 
     def trueTimeToReachGround(self):
-        return
+        #reflects vertical displacement during deployment
+        s = (self.yV*self.deploymentTime) + (0.5)*(self.g)*(self.deploymentTime**2)
+        remainingDistance = self.projY - s
+        self.calcDescentVelocity()
+        newTime = math.abs(remainingDistance)/math.abs(self.vYpost)
+        return newTime
 
-    def calcDropLoc(self):
+    def getDropDisplacementVector(self):
+        time =  self.trueTimeToReachGround()
+        xDisp = self.vX*time
+        yDisp = -self.getY() #assumption: my calculations above are correct
+        zDisp = self.vZ*time
+        dispVector = vector(xDisp, yDisp, zDisp)
+        return dispVector
+
+    #in retrospect not needed
+    def calcLandSpot(self):
+        dispVector = self.getDropDisplacementVector()
+        landPoint = point(self.projX+dispVector.getX(), self.projY+dispVector.getY(). self.projZ+dispVector.getZ())
+        return landPoint
+
+    def calcDropSpot(self):
+        dispVector = self.getDropDisplacementVector
+        dropXComp = self.tarX - dispVector.getX()
+        dropYComp = self.tarY
+        dropZComp = self.tarZ - dispVector.getZ()
+        currentDropSpot = point(dropXComp, dropYComp, dropZComp)
         return
