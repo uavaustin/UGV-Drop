@@ -5,8 +5,8 @@ Inputs: (complete later when done)
     Drag
 
 Assumptions:
-    The drone is moving at constant velocity.
-    The projectile continues to move along the axis when it is dropped.
+    The projectile does not accelerate in lateral or longitudinal direction
+    The coefficient of drag for parachute is known.
 
 @author: rishthak
 
