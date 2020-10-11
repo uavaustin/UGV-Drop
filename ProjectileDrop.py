@@ -87,13 +87,13 @@ class vector:
         self.y = yComp
         self.z = zComp
 
-    def getX():
+    def getX(self):
         return self.x
 
-    def getY():
+    def getY(self):
         return self.y
 
-    def getz():
+    def getz(self):
         return self.z
 
 
@@ -180,4 +180,4 @@ class dropCalculations:
         dropYComp = self.tarY
         dropZComp = self.tarZ - dispVector.getZ()
         currentDropSpot = point(dropXComp, dropYComp, dropZComp)
-        return
+        return currentDropSpot
