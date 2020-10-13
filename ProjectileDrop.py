@@ -144,14 +144,14 @@ class dropCalculations:
         self.projZ = z
 
     def updateVelocity(x: float, y: float, z: float):
-        self.xV = x
-        self.yV = y
-        self.zV = z
+        self.vX = x
+        self.vY = y
+        self.vZ = z
 
     def updateAcceleration(x: float, y: float, z: float):
-        self.xA = x
-        self.yA = y
-        self.zA = z
+        self.aX = x
+        self.aY = y
+        self.aZ = z
 
     def updateAirDensity(newDensity: float):
         self.airDensity = newDensity
@@ -172,15 +172,22 @@ class dropCalculations:
         print(remainingDistance) #debugging
         self.calcDescentVelocity()
         newTime = abs(remainingDistance)/abs(self.vYpost)
-        print (newTime) #debugging
+        print ("newTime/ true time: " + str(newTime)) #debugging
         return newTime
 
     def getDropDisplacementVector(self):
         time =  self.trueTimeToReachGround() + self.chuteDepTime
+        dep = self.chuteDepTime
+        print("chuteDepTime " + str(dep))
+        print (str(time))
         xDisp = self.vX*time + (0.5*self.aX*(time**2))
-        yDisp = self.vY*self.chuteDepTime
-        yDisp = self.vYpost*self.trueTimeToReachGround() + (0.5*self.aY*(self.trueTimeToReachGround()**2)) #assumption: my calculations above are correct
+        yDisp = (self.vY*self.chuteDepTime) + (0.5)*(self.g+self.aY)*(self.chuteDepTime**2)
+        yDisp = yDisp + self.vYpost*self.trueTimeToReachGround()
+        print("ydisp c2 " + str(0.5*(self.g+self.aY)*((self.trueTimeToReachGround()**2))))
         zDisp = self.vZ*time + (0.5*self.aZ*(time**2))
+        print("xdisp " + str(xDisp))
+        print("ydisp " + str(yDisp))
+        print("zdisp " + str(zDisp))
         dispVector = vector(xDisp, yDisp, zDisp)
         return dispVector
 
