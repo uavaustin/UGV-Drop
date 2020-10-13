@@ -31,7 +31,7 @@ class point:
         self.y = yComp
         self.z = zComp
     def __str__(self):
-        return ("X: "  + x + "Y: " + y + "Z: " + z)
+        return ("X: "  + str(self.x) + " Y: " + str(self.y) + " Z: " + str(self.z))
 
     def getX(self):
         return self.x
@@ -110,7 +110,7 @@ class dropCalculations:
         if coeffOfDrag != 0:
             self.dragCoeff = coeffOfDrag
         self.mass = dropProjSysMass
-        self.g = 9.81 #acceleration due to gravity
+        self.g = -9.81 #acceleration due to gravity
         self.airDensity = 1.225 #in kg/m^3
         self.chuteArea = parachuteArea
 
@@ -136,7 +136,7 @@ class dropCalculations:
         self.aZ = accelerationVector.getZ()
 
         #Other Properties
-        self.chuteDepTime = 0.00 #chuteDepTime is the amount of time it takes for the chute to fully deploy
+        self.chuteDepTime = parachuteDeploymentTime #chuteDepTime is the amount of time it takes for the chute to fully deploy
 
     def updateLocation(x: float, y: float, z: float):
         self.projX = x
@@ -160,22 +160,26 @@ class dropCalculations:
         self.chuteDepTime = newDepTime
 
     def calcDescentVelocity(self):
-        velocity = 2*(mass*g)
+        velocity = 2*abs((self.mass*self.g))
         velocity = velocity/(self.dragCoeff*self.airDensity*self.chuteArea)
         velocity = math.sqrt(velocity)
         self.vYpost = -velocity
+        print(self.vYpost) #debugging
 
     def trueTimeToReachGround(self):
-        s = (self.yV*self.chuteDepTime) + (0.5)*(self.g+self.yA)*(self.chuteDepTime**2) #reflects vertical displacement during deployment
-        remainingDistance = self.projY - s
+        s = (self.vY*self.chuteDepTime) + (0.5)*(self.g+self.aY)*(self.chuteDepTime**2) #reflects vertical displacement during deployment
+        remainingDistance = self.projY + s
+        print(remainingDistance) #debugging
         self.calcDescentVelocity()
-        newTime = math.abs(remainingDistance)/math.abs(self.vYpost)
+        newTime = abs(remainingDistance)/abs(self.vYpost)
+        print (newTime) #debugging
         return newTime
 
     def getDropDisplacementVector(self):
         time =  self.trueTimeToReachGround() + self.chuteDepTime
         xDisp = self.vX*time + (0.5*self.aX*(time**2))
-        yDisp = -self.vyPost + (0.5*self.aY*(self.trueTimeToReachGround()**2)) #assumption: my calculations above are correct
+        yDisp = self.vY*self.chuteDepTime
+        yDisp = self.vYpost*self.trueTimeToReachGround() + (0.5*self.aY*(self.trueTimeToReachGround()**2)) #assumption: my calculations above are correct
         zDisp = self.vZ*time + (0.5*self.aZ*(time**2))
         dispVector = vector(xDisp, yDisp, zDisp)
         return dispVector
@@ -202,29 +206,46 @@ Debugging UI
 """
 stop = False
 while stop!=True:
+    """
     xDi = input("\n X Component of Position (Projectile): ")
     yDi = input("\n Y Component of Position (Projectile): ")
     zDi = input("\n Z Component of Position (Projectile): ")
     ptP = point(xDi, yDi, zDi)
+    """
+    ptP = point(20, 20, 20)
 
+    """
     xDi = input("\n X Component of Position (DropSpot): ")
     yDi = input("\n Y Component of Position (DropSpot): ")
     zDi = input("\n Z Component of Position (DropSpot): ")
     ptD = point(xDi, yDi, zDi)
+    """
+    ptD = point(15, 0, 21)
 
+    """
     xDi = input("\n X Component of Velocity (Projectile): ")
     yDi = input("\n Y Component of Velocity (Projectile): ")
     zDi = input("\n Z Component of Velocity (Projectile): ")
     vVe = vector(xDi, yDi, zDi)
+    """
+    vVe = vector(2, 0.002, 2)
 
+
+    """
     xDi = input("\n X Component of Acceleration (Projectile): ")
     yDi = input("\n Y Component of Acceleration (Projectile): ")
     zDi = input("\n Z Component of Acceleration (Projectile): ")
     vAcc = vector(xDi, yDi, zDi)
+    """
+    vAcc = vector(0.5, 0, 0.5)
+
 
     deTest = dropCalculations(vAcc, vVe, ptP, ptD, 1.2, 6, 3.1928, 1)
     print(deTest.calcDropSpot())
 
+    stop = True
+    """
     next = input("Stop?: ")
     if (next=="stop") or  (next=="STOP") :
         stop = True
+    """
