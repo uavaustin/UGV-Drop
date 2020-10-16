@@ -2,9 +2,8 @@
 
 unit testing for ProjecileDrop.py
 Assumptions:
-    Max Y = 30.48
-    No negative components for points class
-    ?Target is origin?
+    Z is height: Max Z = 30.48
+    Target is origin, so negative points are allowed
 
 @author: jordan
 
@@ -14,10 +13,10 @@ from ProjectileDrop import *
 
 class TestMethods(unittest.TestCase):
 
-#test point class and methods
+#test point class and its methods
     def testPointMethods(self):
         x = 10
-        y = 6.5
+        y = -6.5
         z = 21.4
         testPoint = point(x, y, z)
 
@@ -25,15 +24,15 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(testPoint.getY(), y)
         self.assertEqual(testPoint.getZ(), z)
 
-        testPoint.setX(13)
-        testPoint.setY(2.0)
+        testPoint.setX(-13)
+        testPoint.setY(-2.0)
         testPoint.setZ(29.8888)
 
-        self.assertEqual(testPoint.getX(), 13)
-        self.assertEqual(testPoint.getY(), 2)
+        self.assertEqual(testPoint.getX(), -13)
+        self.assertEqual(testPoint.getY(), -2)
         self.assertEqual(testPoint.getZ(), 29.8888)
 
-#test vector class and methods
+#test vector class and its methods
     def testVectorMethods(self):
         xv = 14.76
         yv = -5.4321
@@ -54,14 +53,55 @@ class TestMethods(unittest.TestCase):
         chuteAndUGVMass = 20
         chuteArea = 70
         chuteDeployTime = 2
-
+        #setting up values to use in the methods
         testDropCalc = dropCalculations(velVec,accelVec,projLoc,targetLoc,coeffDrag,chuteAndUGVMass,chuteArea,chuteDeployTime)
 
-        testDropCalc.updateLocation(1,2,3):
+        #test updateLocation
+
+        testDropCalc.updateLocation(1,2,3)
         self.assertEqual(testDropCalc.projX, 1)
         self.assertEqual(testDropCalc.projY, 2)
         self.assertEqual(testDropCalc.projZ, 3)
-#this is not done lol
+
+        #test updateVelocity
+        testDropCalc.updateVelocity(2,-2,0)
+        self.assertEqual(testDropCalc.vX, 2)
+        self.assertEqual(testDropCalc.vY, -2)
+        self.assertEqual(testDropCalc.vZ, 0)
+
+        #test updateAcceleration
+        testDropCalc.updateAcceleration(-9,8,-7)
+        self.assertEqual(testDropCalc.aX,-9)
+        self.assertEqual(testDropCalc.aY,8)
+        self.assertEqual(testDropCalc.aZ,-7)
+
+        #test updateAirDensity
+        testDropCalc.updateAirDensity(.54)
+        self.assertEqual(testDropCalc.airDensity, .54)
+
+        #test updateChuteDepTime
+        testDropCalc.updateChuteDepTime(3.6)
+        self.assertEqual(testDropCalc.chuteDepTime, 3.6)
+
+        #test calcDescentVelocity
+        testDropCalc.calcDescentVelocity()
+
+
+
+        #test trueTimeToReachGround
+        testDropCalc.trueTimeToReachGround()
+
+
+
+        #test getDropDisplacementVector
+
+
+
+        #test calcLandSpot
+
+
+        #test calcDropSpot
+        testDropCalc.calcDropSpot()
 
 
 
