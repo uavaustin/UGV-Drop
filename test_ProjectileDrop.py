@@ -50,11 +50,11 @@ class TestMethods(unittest.TestCase):
         projLoc = point(12, 5.5, 0.6)
         targetLoc = point(0, 0, 0)
         coeffDrag = 0.1
-        chuteAndUGVMass = 20
+        ProjSysMass = 20
         chuteArea = 70
         chuteDeployTime = 2
         #setting up values to use in the methods
-        testDropCalc = dropCalculations(velVec,accelVec,projLoc,targetLoc,coeffDrag,chuteAndUGVMass,chuteArea,chuteDeployTime)
+        testDropCalc = dropCalculations(velVec,accelVec,projLoc,targetLoc,coeffDrag,ProjSysMass,chuteArea,chuteDeployTime)
 
         #test updateLocation
 
@@ -85,24 +85,16 @@ class TestMethods(unittest.TestCase):
 
         #test calcDescentVelocity
         testDropCalc.calcDescentVelocity()
-
-
+        self.assertAlmostEqual(testDropCalc.vYpost, -6.76123403783)
 
         #test trueTimeToReachGround
         testDropCalc.trueTimeToReachGround()
 
 
 
-        #test getDropDisplacementVector
-
-
-
-        #test calcLandSpot
-
-
         #test calcDropSpot
         testDropCalc.calcDropSpot()
-
+        
 
 
 if __name__ == '__main__':
