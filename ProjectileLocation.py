@@ -66,9 +66,10 @@ class vector:
         return self.z
 
 class pointLatLon:
-    def __init__(self, Latitude: float, Longitude: float):
+    def __init__(self, Latitude: float, Longitude: float, Altitude: float):
         self.lat = Latitude
         self.long = Longitude
+        self.alt = Altitude
 
     def getLat(self):
         return self.lat
@@ -76,13 +77,24 @@ class pointLatLon:
     def getLon(self):
         return self.lon
 
+    def getAlt(self):
+        return self.alt
+
 class alignToOriginTool:
     def __init__(self, observationPoint: pointLatLon, originPoint: pointLatLon):
         self.obsPoint = observationPoint
         self.orgPoint = pointOrigin
+        self.rEarth = 6378137 #equatorial raidus Earth
 
-    def alignToOrigin(self):
-        return
+    def alignToOrigin(self, observationPoint: pointLatLon):
+        self.obsPoint = observationPoint
+        x = math.cos(self.obsPoint.getLat())*math.sin((self.obsPoint.getLon()-self.orgPoint.getLon())/2)
+        x = math.asin(x)
+        x = 2*self.rEarth*x
+        y =self.rEarth*(self.obsPoint.getLat() - self.orgPoint.getLat())
+        z = obsPoint.getAlt()
+        cartesPoint = point(x,y,z)
+        return cartesPoint
 
     def updateObsvPoint(self, observationPoint: pointLatLon):
         self.obsPoint = observationPoint
