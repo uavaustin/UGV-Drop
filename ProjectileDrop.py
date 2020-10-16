@@ -138,25 +138,25 @@ class dropCalculations:
         #Other Properties
         self.chuteDepTime = parachuteDeploymentTime #chuteDepTime is the amount of time it takes for the chute to fully deploy
 
-    def updateLocation(x: float, y: float, z: float):
+    def updateLocation(self, x: float, y: float, z: float):
         self.projX = x
         self.projY = y
         self.projZ = z
 
-    def updateVelocity(x: float, y: float, z: float):
+    def updateVelocity(self, x: float, y: float, z: float):
         self.vX = x
         self.vY = y
         self.vZ = z
 
-    def updateAcceleration(x: float, y: float, z: float):
+    def updateAcceleration(self, x: float, y: float, z: float):
         self.aX = x
         self.aY = y
         self.aZ = z
 
-    def updateAirDensity(newDensity: float):
+    def updateAirDensity(self, newDensity: float):
         self.airDensity = newDensity
 
-    def updateChuteDepTime(newDepTime: float):
+    def updateChuteDepTime(self, newDepTime: float):
         self.chuteDepTime = newDepTime
 
     def calcDescentVelocity(self):
