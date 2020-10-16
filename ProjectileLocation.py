@@ -5,10 +5,8 @@ This class should be run in tandem with the ProjectileDrop file.
 @author: rishthak
 
 """
-"""
-The point class specifices a point in three dimensions
-"""
 
+import math
 
 """
 The point class specifies a point in three dimensions
@@ -46,8 +44,8 @@ class point:
 """
 The vector class specifies a vector in three dimensions
     @param xComp The X Component running laterally to the ground
-    @param xComp The Y Component perpendicular to the ground. The ground is presumed to be 0
-    @param xComp The Z Component longitudinal to the ground
+    @param yComp The Y Component longitudinal to the ground
+    @param ZComp The Z Component perpendicular to the ground. The ground is presumed to be 0. I.E height
 
 """
 class vector:
@@ -65,10 +63,17 @@ class vector:
     def getZ(self):
         return self.z
 
+"""
+The pointLatLon class specifies a vector in three dimensions
+    @param Latitude The latitude
+    @param Longitude The longitdue
+    @param Altitude The altitude
+
+"""
 class pointLatLon:
     def __init__(self, Latitude: float, Longitude: float, Altitude: float):
         self.lat = Latitude
-        self.long = Longitude
+        self.lon = Longitude
         self.alt = Altitude
 
     def getLat(self):
@@ -80,10 +85,17 @@ class pointLatLon:
     def getAlt(self):
         return self.alt
 
+"""
+The alignToOriginTool can be used to translate a pointLatLon to a point at a specified origin
+    @param observationPoint The pointLatLon defined as the observation location
+    @param originPoint The pointLatLon defined as the origin
+
+"""
+
 class alignToOriginTool:
     def __init__(self, observationPoint: pointLatLon, originPoint: pointLatLon):
         self.obsPoint = observationPoint
-        self.orgPoint = pointOrigin
+        self.orgPoint = originPoint
         self.rEarth = 6378137 #equatorial raidus Earth
 
     def alignToOrigin(self, observationPoint: pointLatLon):
@@ -92,8 +104,9 @@ class alignToOriginTool:
         x = math.asin(x)
         x = 2*self.rEarth*x
         y =self.rEarth*(self.obsPoint.getLat() - self.orgPoint.getLat())
-        z = obsPoint.getAlt()
+        z = self.obsPoint.getAlt()
         cartesPoint = point(x,y,z)
+        print("cartesian Point: " + str(cartesPoint))
         return cartesPoint
 
     def updateObsvPoint(self, observationPoint: pointLatLon):

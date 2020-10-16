@@ -21,13 +21,13 @@ from ProjectileLocation import *
 
 """
 The dropCalclations class specifices the location and time? when a projectile should dropped to land on a target
-    Input varaibles can be updated if not immediately known.
+    Input variables can be updated if not immediately known.
     Only one instance of this class is required to compute the drop location for a continous calculation of the drop spot.
     All units are in metric units: meters, kg, seconds, etc.
 
     Input Variables:
     @param velocityVector The velocity vector of the projectile.
-    @param accelerationVector The acceleration vector of the projectile. NOTE: Add the acceleration in the Y direction NOT due to gravity
+    @param accelerationVector The acceleration vector of the projectile. NOTE: Add the acceleration in the Z direction NOT due to gravity
     @param projectileLoc The position of the projectile.
     @param targetLoc The position of the drop spot
     @param coeffOfDrag The drag coefficient of the parachute.
@@ -74,7 +74,7 @@ class dropCalculations:
         self.vX = velocityVector.getX()
         self.vY = velocityVector.getY()
         self.vZ = velocityVector.getZ()
-        self.vYpost = 0 #velocity vector after chute has fully deployed
+        self.vZpost = 0 #velocity vector after chute has fully deployed
 
         #acceleration
         self.aX = accelerationVector.getX()
@@ -106,18 +106,20 @@ class dropCalculations:
         self.chuteDepTime = newDepTime
 
     def calcDescentVelocity(self):
+        if(self.projZ == 0):
+            raise Exception("\nHmmm. This function only works if the projectile is dropped in the air \nZ cannot be 0")
         velocity = 2*abs((self.mass*self.g))
         velocity = velocity/(self.dragCoeff*self.airDensity*self.chuteArea)
         velocity = math.sqrt(velocity)
-        self.vYpost = -velocity
-        print(self.vYpost) #debugging
+        self.vZpost = -velocity
+        print(self.vZpost) #debugging
 
     def trueTimeToReachGround(self):
-        s = (self.vY*self.chuteDepTime) + (0.5)*(self.g+self.aY)*(self.chuteDepTime**2) #reflects vertical displacement during deployment
-        remainingDistance = self.projY + s
+        s = (self.vZ*self.chuteDepTime) + (0.5)*(self.g+self.aZ)*(self.chuteDepTime**2) #reflects vertical displacement during deployment
+        remainingDistance = self.projZ + s
         print(remainingDistance) #debugging
         self.calcDescentVelocity()
-        newTime = abs(remainingDistance)/abs(self.vYpost)
+        newTime = abs(remainingDistance)/abs(self.vZpost)
         print ("newTime/ true time: " + str(newTime)) #debugging
         return newTime
 
@@ -127,10 +129,10 @@ class dropCalculations:
         print("chuteDepTime " + str(dep))
         print (str(time))
         xDisp = self.vX*time + (0.5*self.aX*(time**2))
-        yDisp = (self.vY*self.chuteDepTime) + (0.5)*(self.g+self.aY)*(self.chuteDepTime**2)
-        yDisp = yDisp + self.vYpost*self.trueTimeToReachGround()
-        print("ydisp c2 " + str(0.5*(self.g+self.aY)*((self.trueTimeToReachGround()**2))))
-        zDisp = self.vZ*time + (0.5*self.aZ*(time**2))
+        yDisp = self.vY*time + (0.5*self.aY*(time**2))
+        zDisp = (self.vZ*self.chuteDepTime) + (0.5)*(self.g+self.aZ)*(self.chuteDepTime**2)
+        zDisp = zDisp + self.vZpost*self.trueTimeToReachGround()
+        print("zdisp c2 " + str(0.5*(self.g+self.aZ)*((self.trueTimeToReachGround()**2))))
         print("xdisp " + str(xDisp))
         print("ydisp " + str(yDisp))
         print("zdisp " + str(zDisp))
@@ -173,7 +175,7 @@ while stop!=True:
     zDi = input("\n Z Component of Position (DropSpot): ")
     ptD = point(xDi, yDi, zDi)
     """
-    ptD = point(15, 0, 21)
+    ptD = point(15, 21, 0)
 
     """
     xDi = input("\n X Component of Velocity (Projectile): ")
@@ -181,7 +183,7 @@ while stop!=True:
     zDi = input("\n Z Component of Velocity (Projectile): ")
     vVe = vector(xDi, yDi, zDi)
     """
-    vVe = vector(2, 0.002, 2)
+    vVe = vector(2, 2, 0.002)
 
 
     """
@@ -190,7 +192,7 @@ while stop!=True:
     zDi = input("\n Z Component of Acceleration (Projectile): ")
     vAcc = vector(xDi, yDi, zDi)
     """
-    vAcc = vector(0.5, 0, 0.5)
+    vAcc = vector(0.5, 0.5, 0)
 
 
     deTest = dropCalculations(vAcc, vVe, ptP, ptD, 1.2, 6, 3.1928, 1)
