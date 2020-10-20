@@ -85,16 +85,17 @@ class TestMethods(unittest.TestCase):
 
         #test calcDescentVelocity
         testDropCalc.calcDescentVelocity()
-        self.assertAlmostEqual(testDropCalc.vYpost, -6.76123403783)
+        self.assertAlmostEqual(testDropCalc.vYpost, -10.1886958837)
 
         #test trueTimeToReachGround
-        testDropCalc.trueTimeToReachGround()
-
-
+        self.assertAlmostEqual(testDropCalc.trueTimeToReachGround(), 1.661527657)
 
         #test calcDropSpot
-        testDropCalc.calcDropSpot()
-        
+        dropSpot = testDropCalc.calcDropSpot()
+        self.assertAlmostEqual(dropSpot.getX(), 114.05347447)
+        self.assertAlmostEqual(dropSpot.getY(), 2)
+        self.assertAlmostEqual(dropSpot.getZ(), 96.89285650)
+
 
 
 if __name__ == '__main__':
