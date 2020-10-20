@@ -93,7 +93,7 @@ class TestMethods(unittest.TestCase):
         #test calcDropSpot
         dropSpot = testDropCalc.calcDropSpot()
         self.assertAlmostEqual(dropSpot.getX(), 114.05347447)
-        self.assertAlmostEqual(dropSpot.getY(), 2)
+        self.assertAlmostEqual(dropSpot.getY(), 35.8576)
         self.assertAlmostEqual(dropSpot.getZ(), 96.89285650)
 
 
