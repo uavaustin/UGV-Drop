@@ -113,4 +113,4 @@ class alignToOriginTool:
         self.obsPoint = observationPoint
 
     def updateOrigin(self, originPoint: pointLatLon):
-        self.orgPoint = pointOrigin
+        self.orgPoint = originPoint
