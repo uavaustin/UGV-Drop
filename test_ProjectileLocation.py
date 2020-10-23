@@ -60,19 +60,21 @@ class TestMethods(unittest.TestCase):
         observe = pointLatLon(-7.5, 10, 25)
         origin = pointLatLon(0, 0, 0)
         testOriginTool = alignToOriginTool(observe, origin)
-        """
-        self.assertAlmostEqual(testOriginTool.alignToOrigin(pointLatLon(2, -5, 8)), #the calculated value)
-        #not calculated yet
-        """
+
+        testAlignCase = testOriginTool.alignToOrigin(pointLatLon(2, -5, 8))
+        self.assertAlmostEqual(testAlignCase.getX(), 3210774.4160264)
+        self.assertAlmostEqual(testAlignCase.getY(), 12756274)
+        self.assertAlmostEqual(testAlignCase.getZ(), 8)
+
         testOriginTool.updateObsvPoint(pointLatLon(-27, 12, 6))
+        self.assertEqual(testOriginTool.obsPoint.getLat(), -27)
+        self.assertEqual(testOriginTool.obsPoint.getLon(), 12)
+        self.assertEqual(testOriginTool.obsPoint.getAlt(), 6)
 
         testOriginTool.updateOrigin(pointLatLon(1, -1, 10))
         self.assertEqual(testOriginTool.orgPoint.getLat(), 1)
         self.assertEqual(testOriginTool.orgPoint.getLon(), -1)
         self.assertEqual(testOriginTool.orgPoint.getAlt(), 10)
-
-
-
 
 
 if __name__ == '__main__':
