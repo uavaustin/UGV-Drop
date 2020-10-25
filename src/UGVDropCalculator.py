@@ -1,12 +1,12 @@
 """
-The ProjectileDrop calculates the location at which a projectile needs to be dropped to reach an intended target.
+The UGVDropCalculator calculates the location at which a projectile needs to be dropped to reach an intended target.
 
 Inputs:
     * Drag Coefficient of the Parachute
     * Air Density
-    * The Position Vector of the UGV (Projectile)
-    * The Velocity Vector of the UGV (Projectile)
-    * The Acceleration Vector of the UGV (Projectile)
+    * The Position Vector of the UGV
+    * The Velocity Vector of the UGV
+    * The Acceleration Vector of the UGV
 
 Assumptions:
     The coefficient of drag for parachute is known.
@@ -15,9 +15,12 @@ Assumptions:
 @author: rishthak
 
 """
-
 import math
-from ProjectileLocation import
+from CartesianGeographicalConversions import *
+
+
+
+
 
 """
 The dropCalclations class specifices the location and time? when a projectile should dropped to land on a target
@@ -45,94 +48,99 @@ class dropCalculations:
     def __init__(self,
                 velocityVector: vector,
                 accelerationVector: vector,
-                projectileLoc: point,
-                targetLoc: point,
+                obsPoint: geoCord,
+                originPoint: geoCord,
                 coeffOfDrag: float,
                 dropProjSysMass: float, #mass of parachute and UGV system
                 parachuteArea: float,
                 parachuteDeploymentTime: float):
 
-        self.dragCoeff = 1.0;
+        self.__translator = pointConversionTool(obsPoint, originPoint)
+        projectileLoc = self.__translator.alignToOrigin(obsPoint)
+        targetLoc = point(0, 0, 0)
+        print(self.__translator.pointToGeoCord(projectileLoc))
+
+        self.__dragCoeff = 1.0;
         if coeffOfDrag != 0:
-            self.dragCoeff = coeffOfDrag
-        self.mass = dropProjSysMass
-        self.g = -9.81 #acceleration due to gravity
-        self.airDensity = 1.225 #in kg/m^3
-        self.chuteArea = parachuteArea
+            self.__dragCoeff = coeffOfDrag
+        self.__mass = dropProjSysMass
+        self.__g = -9.81 #acceleration due to gravity
+        self.__airDensity = 1.225 #in kg/m^3
+        self.__chuteArea = parachuteArea
 
         #Specific, derived values: Projectile Location
-        self.projX = projectileLoc.getX()
-        self.projY = projectileLoc.getY()
-        self.projZ = projectileLoc.getZ()
+        self.__projX = projectileLoc.getX()
+        self.__projY = projectileLoc.getY()
+        self.__projZ = projectileLoc.getZ()
 
         #Specific, derived values: Target Location
-        self.tarX = targetLoc.getX()
-        self.tarY = targetLoc.getY()
-        self.tarZ = targetLoc.getZ()
+        self.__tarX = targetLoc.getX()
+        self.__tarY = targetLoc.getY()
+        self.__tarZ = targetLoc.getZ()
 
         #velocities
-        self.vX = velocityVector.getX()
-        self.vY = velocityVector.getY()
-        self.vZ = velocityVector.getZ()
-        self.vZpost = 0 #velocity vector after chute has fully deployed
+        self.__vX = velocityVector.getX()
+        self.__vY = velocityVector.getY()
+        self.__vZ = velocityVector.getZ()
+        self.__vZpost = 0 #velocity vector after chute has fully deployed
 
         #acceleration
-        self.aX = accelerationVector.getX()
-        self.aY = accelerationVector.getY()
-        self.aZ = accelerationVector.getZ()
+        self.__aX = accelerationVector.getX()
+        self.__aY = accelerationVector.getY()
+        self.__aZ = accelerationVector.getZ()
 
         #Other Properties
-        self.chuteDepTime = parachuteDeploymentTime #chuteDepTime is the amount of time it takes for the chute to fully deploy
+        self.__chuteDepTime = parachuteDeploymentTime #chuteDepTime is the amount of time it takes for the chute to fully deploy
 
     def updateLocation(self, x: float, y: float, z: float):
-        self.projX = x
-        self.projY = y
-        self.projZ = z
+        self.__projX = x
+        self.__projY = y
+        self.__projZ = z
 
     def updateVelocity(self, x: float, y: float, z: float):
-        self.vX = x
-        self.vY = y
-        self.vZ = z
+        self.__vX = x
+        self.__vY = y
+        self.__vZ = z
 
     def updateAcceleration(self, x: float, y: float, z: float):
-        self.aX = x
-        self.aY = y
-        self.aZ = z
+        self.__aX = x
+        self.__aY = y
+        self.__aZ = z
 
     def updateAirDensity(self, newDensity: float):
-        self.airDensity = newDensity
+        self.__airDensity = newDensity
 
     def updateChuteDepTime(self, newDepTime: float):
-        self.chuteDepTime = newDepTime
+        self.__chuteDepTime = newDepTime
 
     def calcDescentVelocity(self):
-        if(self.projZ == 0):
+        if(self.__projZ == 0):
             raise Exception("\nHmmm. This function only works if the projectile is dropped in the air \nZ cannot be 0")
-        velocity = 2*abs((self.mass*self.g))
-        velocity = velocity/(self.dragCoeff*self.airDensity*self.chuteArea)
+        velocity = 2*abs((self.__mass*self.__g))
+        velocity = velocity/(self.__dragCoeff*self.__airDensity*self.__chuteArea)
         velocity = math.sqrt(velocity)
-        self.vZpost = -velocity
-        print(self.vZpost) #debugging
+        self.__vZpost = -velocity
+        print(self.__vZpost) #debugging
 
     def trueTimeToReachGround(self):
-        s = (self.vZ*self.chuteDepTime) + (0.5)*(self.g+self.aZ)*(self.chuteDepTime**2) #reflects vertical displacement during deployment
-        remainingDistance = self.projZ + s
+        s = (self.__vZ*self.__chuteDepTime) + (0.5)*(self.__g+self.__aZ)*(self.__chuteDepTime**2) #reflects vertical displacement during deployment
+        remainingDistance = self.__projZ + s
         print(remainingDistance) #debugging
         self.calcDescentVelocity()
-        newTime = abs(remainingDistance)/abs(self.vZpost)
+        newTime = abs(remainingDistance)/abs(self.__vZpost)
         print ("newTime/ true time: " + str(newTime)) #debugging
         return newTime
 
     def getDropDisplacementVector(self):
-        time =  self.trueTimeToReachGround() + self.chuteDepTime
-        dep = self.chuteDepTime
+        time =  self.trueTimeToReachGround() + self.__chuteDepTime
+        dep = self.__chuteDepTime
         print("chuteDepTime " + str(dep))
         print (str(time))
-        xDisp = self.vX*time + (0.5*self.aX*(time**2))
-        yDisp = self.vY*time + (0.5*self.aY*(time**2))
-        zDisp = (self.vZ*self.chuteDepTime) + (0.5)*(self.g+self.aZ)*(self.chuteDepTime**2)
-        zDisp = zDisp + self.vZpost*self.trueTimeToReachGround()
-        print("zdisp c2 " + str(0.5*(self.g+self.aZ)*((self.trueTimeToReachGround()**2))))
+        xDisp = self.__vX*time + (0.5*self.__aX*(time**2))
+        yDisp = self.__vY*time + (0.5*self.__aY*(time**2))
+        zDisp = (self.__vZ*self.__chuteDepTime) + (0.5)*(self.__g+self.__aZ)*(self.__chuteDepTime**2)
+        zDisp = zDisp + self.__vZpost*self.trueTimeToReachGround()
+        print("zdisp c2 " + str(0.5*(self.__g+self.__aZ)*((self.trueTimeToReachGround()**2))))
         print("xdisp " + str(xDisp))
         print("ydisp " + str(yDisp))
         print("zdisp " + str(zDisp))
@@ -142,23 +150,28 @@ class dropCalculations:
     #in retrospect not needed
     def calcLandSpot(self):
         theDispVector = self.getDropDisplacementVector()
-        landPoint = point(self.projX+theDispVector.getX(), self.projY+theDispVector.getY(). self.projZ+theDispVector.getZ())
+        landPoint = point(self.__projX+theDispVector.getX(), self.__projY+theDispVector.getY(). self.__projZ+theDispVector.getZ())
         return landPoint
 
     def calcDropSpot(self):
         theDispVector = self.getDropDisplacementVector()
-        dropXComp = self.tarX - theDispVector.getX()
-        dropYComp = self.tarY - theDispVector.getY()
-        dropZComp = self.tarZ - theDispVector.getZ()
+        dropXComp = self.__tarX - theDispVector.getX()
+        dropYComp = self.__tarY - theDispVector.getY()
+        dropZComp = self.__tarZ - theDispVector.getZ()
         currentDropSpot = point(dropXComp, dropYComp, dropZComp)
         return currentDropSpot
 
+    def calcDropSpotGeoCord(self):
+        pointF = self.calcDropSpot()
+        output = self.__translator.pointToGeoCord(pointF)
+        return output
 
 
 """
 Debugging UI
 
 """
+
 stop = False
 while stop!=True:
     """
@@ -167,7 +180,7 @@ while stop!=True:
     zDi = input("\n Z Component of Position (Projectile): ")
     ptP = point(xDi, yDi, zDi)
     """
-    ptP = point(20, 20, 20)
+    ptP = geoCord(20.000, 18.777, 20)
 
     """
     xDi = input("\n X Component of Position (DropSpot): ")
@@ -175,7 +188,7 @@ while stop!=True:
     zDi = input("\n Z Component of Position (DropSpot): ")
     ptD = point(xDi, yDi, zDi)
     """
-    ptD = point(15, 21, 0)
+    ptD = geoCord(20.0001, 18.987, 0)
 
     """
     xDi = input("\n X Component of Velocity (Projectile): ")
@@ -196,7 +209,7 @@ while stop!=True:
 
 
     deTest = dropCalculations(vAcc, vVe, ptP, ptD, 1.2, 6, 3.1928, 1)
-    print(deTest.calcDropSpot())
+    print(deTest.calcDropSpotGeoCord())
 
     stop = True
     """
@@ -204,3 +217,8 @@ while stop!=True:
     if (next=="stop") or  (next=="STOP") :
         stop = True
     """
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> defc6fe1958213fb22bc7c8eef0e8b31054164a3

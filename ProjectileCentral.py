@@ -8,19 +8,19 @@ Files needed: ProjectileLocation.py and ProjectileDrop.py
 
 """
 
-from ProjectileDrop import *
+from src import *
 import math
 
 """
 Location of Projectile
 """
-obsPoint = pointLatLon(0,0,0)
+obsPoint = geoCord(0,0,0)
 
 
 """
 Location of Drop Spot
 """
-originPoint = pointLatLon(0,0,0)
+originPoint = geoCord(0,0,0)
 
 """
 Velocity Vector
@@ -43,8 +43,6 @@ chuteDeployTime = 2.500
 """
 Computation
 """
-translator = alignToOriginTool(obsPoint, originPoint)
-obsPointCart = translator.alignToOrigin(obsPoint)
-orgPointCart = point (0,0,0)
+
 dropCalculator = dropCalculations(veAcc, veAcc, obsPointCart, orgPointCart, chuteDragCoeff, systemMass, chuteArea, chuteDeployTime)
 print(dropCalculator.calcDropSpot())
