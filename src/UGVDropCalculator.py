@@ -58,6 +58,7 @@ class dropCalculations:
         self.__translator = pointConversionTool(obsPoint, originPoint)
         projectileLoc = self.__translator.alignToOrigin(obsPoint)
         targetLoc = point(0, 0, 0)
+        print(self.__translator.pointToGeoCord(projectileLoc))
 
         self.__dragCoeff = 1.0;
         if coeffOfDrag != 0:
