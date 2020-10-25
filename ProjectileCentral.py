@@ -8,7 +8,7 @@ Files needed: ProjectileLocation.py and ProjectileDrop.py
 
 """
 
-from ProjectileDrop import *
+from src import *
 import math
 
 """
