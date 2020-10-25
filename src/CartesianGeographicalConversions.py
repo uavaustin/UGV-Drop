@@ -1,10 +1,9 @@
 """
 Conversions
 """
-from CartesianCoordinate import CartesianCoordinate
-from CartesianVector import CartesianVector
-from GeographicalCoordinate import GeographicalCoordinate
-
+from CartesianCoordinate import *
+from CartesianVector import *
+from GeographicalCoordinate import *
 """
 The alignToOriginTool can be used to translate a geoCord to a point at a specified origin
     @param observationPoint The geoCord defined as the observation location

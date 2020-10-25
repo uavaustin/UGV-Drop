@@ -17,7 +17,7 @@ Assumptions:
 """
 
 import math
-from ProjectileLocation import *
+from ProjectileLocation import
 
 """
 The dropCalclations class specifices the location and time? when a projectile should dropped to land on a target
