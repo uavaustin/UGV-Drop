@@ -43,4 +43,8 @@ class pointConversionTool:
         lat = x/(2*self.__rEarth)
         lat = lat/(math.sin((lon - self.__orgPoint.getLon())/2))
         lat = math.acos(math.sin(lat))
+<<<<<<< HEAD
         return geoCord(lat, lon, alt)
+=======
+        return geoCord(lat, lon, alt)
+>>>>>>> defc6fe1958213fb22bc7c8eef0e8b31054164a3
