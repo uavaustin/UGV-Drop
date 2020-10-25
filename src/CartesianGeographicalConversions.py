@@ -1,6 +1,7 @@
 """
 Conversions
 """
+import math
 from CartesianCoordinate import *
 from CartesianVector import *
 from GeographicalCoordinate import *
@@ -11,7 +12,7 @@ The alignToOriginTool can be used to translate a geoCord to a point at a specifi
 
 """
 
-class alignToOriginTool:
+class pointConversionTool:
     def __init__(self, observationPoint: geoCord, originPoint: geoCord):
         self.__obsPoint = observationPoint
         self.__orgPoint = originPoint
@@ -33,3 +34,12 @@ class alignToOriginTool:
 
     def updateOrigin(self, originPoint: geoCord):
         self.__orgPoint = pointOrigin
+
+    def pointToGeoCord(self, transPoint: point):
+        x = transPoint.getX()
+        y = transPoint.getY()
+        alt = transPoint.getZ()
+        lon = (y/self.__rEarth) + self.__orgPoint.getLon()
+        lat = x/(math.sin((lon-self.__orgPoint.getLon())/2))
+        lat = math.cos(lat)
+        return geoCord(lat, lon, alt)

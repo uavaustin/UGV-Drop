@@ -3,6 +3,8 @@ class geoCord:
         self.__lat = Latitude
         self.__lon = Longitude
         self.__alt = Altitude
+    def __str__(self):
+        return ("LAT: "  + str(self.__lat) + " LON: " + str(self.__lon) + " ALT: " + str(self.__alt))
 
     def getLat(self):
         return self.__lat

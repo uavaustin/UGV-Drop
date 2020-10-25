@@ -48,12 +48,16 @@ class dropCalculations:
     def __init__(self,
                 velocityVector: vector,
                 accelerationVector: vector,
-                projectileLoc: point,
-                targetLoc: point,
+                obsPoint: geoCord,
+                originPoint: geoCord,
                 coeffOfDrag: float,
                 dropProjSysMass: float, #mass of parachute and UGV system
                 parachuteArea: float,
                 parachuteDeploymentTime: float):
+
+        self.__translator = pointConversionTool(obsPoint, originPoint)
+        projectileLoc = self.__translator.alignToOrigin(obsPoint)
+        targetLoc = point(0, 0, 0)
 
         self.__dragCoeff = 1.0;
         if coeffOfDrag != 0:
@@ -156,6 +160,10 @@ class dropCalculations:
         currentDropSpot = point(dropXComp, dropYComp, dropZComp)
         return currentDropSpot
 
+    def calcDropSpotGeoCord(self):
+        pointF = self.calcDropSpot()
+        output = self.__translator.pointToGeoCord(pointF)
+        return output
 
 
 """
@@ -171,7 +179,7 @@ while stop!=True:
     zDi = input("\n Z Component of Position (Projectile): ")
     ptP = point(xDi, yDi, zDi)
     """
-    ptP = point(20, 20, 20)
+    ptP = geoCord(20.000, 18.777, 20)
 
     """
     xDi = input("\n X Component of Position (DropSpot): ")
@@ -179,7 +187,7 @@ while stop!=True:
     zDi = input("\n Z Component of Position (DropSpot): ")
     ptD = point(xDi, yDi, zDi)
     """
-    ptD = point(15, 21, 0)
+    ptD = geoCord(20.0001, 18.987, 0)
 
     """
     xDi = input("\n X Component of Velocity (Projectile): ")
@@ -200,7 +208,7 @@ while stop!=True:
 
 
     deTest = dropCalculations(vAcc, vVe, ptP, ptD, 1.2, 6, 3.1928, 1)
-    print(deTest.calcDropSpot())
+    print(deTest.calcDropSpotGeoCord())
 
     stop = True
     """
