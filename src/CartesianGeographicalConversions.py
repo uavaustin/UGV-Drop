@@ -16,7 +16,7 @@ class pointConversionTool:
     def __init__(self, observationPoint: geoCord, originPoint: geoCord):
         self.__obsPoint = observationPoint
         self.__orgPoint = originPoint
-        self.__rEarth = 6378137 #equatorial raidus Earth
+        self.__rEarth = 6378137 #equatorial radius Earth
 
     def alignToOrigin(self, observationPoint: geoCord):
         self.__obsPoint = observationPoint
@@ -26,16 +26,17 @@ class pointConversionTool:
         y =self.__rEarth*(self.__obsPoint.getLat() - self.__orgPoint.getLat())
         z = self.__obsPoint.getAlt()
         cartesPoint = point(x,y,z)
-        #print("cartesian Point: " + str(cartesPoint))
+        print("cartesian Point: " + str(cartesPoint))
         return cartesPoint
 
     def updateObsvPoint(self, observationPoint: geoCord):
         self.__obsPoint = observationPoint
 
     def updateOrigin(self, originPoint: geoCord):
-        self.__orgPoint = pointOrigin
+        self.__orgPoint = originPoint
 
     def pointToGeoCord(self, transPoint: point):
+        print("TransPoint" + str(transPoint))
         x = transPoint.getX()
         y = transPoint.getY()
         alt = transPoint.getZ()
