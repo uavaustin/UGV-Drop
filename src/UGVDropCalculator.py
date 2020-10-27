@@ -236,7 +236,7 @@ while stop!=True:
     """
     next = input("Stop?: ")
     if (next=="stop") or  (next=="STOP") :
-        stop = True
+        stop = True 
     """
 
 
