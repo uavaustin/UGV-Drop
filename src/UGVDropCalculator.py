@@ -17,6 +17,7 @@ Assumptions:
 """
 import math
 import time
+import numpy
 from CartesianGeographicalConversions import *
 
 
@@ -135,8 +136,8 @@ class dropCalculations:
 
     def forcesCalculator(self, dragCoeff: float, surfaceArea: float, vThisStep: vector):
         print("step")
-        aX = -((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getX()**2))/self.__mass
-        aY= -((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getY()**2))/self.__mass
+        aX = (-1*numpy.sign(self.__vX))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getX()**2))/self.__mass
+        aY= (-1*numpy.sign(self.__vY))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getY()**2))/self.__mass
         aZ = self.__g + ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getZ()**2))/self.__mass
 
         print(str(vector(aX, aY, aZ)))
@@ -165,7 +166,7 @@ class dropCalculations:
 
             print("sCurr" + str(sCurr))
 
-        while(round(abs(sCurr.getZ()), 3) < deploymentHeight):
+        while(round(abs(sCurr.getZ()), 4) < deploymentHeight):
 
             print(sCurr)
             print(str(round(abs(deploymentHeight + sCurr.getZ()), 3)))
