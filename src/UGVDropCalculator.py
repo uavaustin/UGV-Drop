@@ -135,12 +135,12 @@ class dropCalculations:
 
     def forcesCalculator(self, dragCoeff: float, surfaceArea: float, vThisStep: vector):
         print("step")
-        aX = ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getX()**2))/self.__mass
-        aY= ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getY()**2))/self.__mass
+        aX = -((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getX()**2))/self.__mass
+        aY= -((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getY()**2))/self.__mass
         aZ = self.__g + ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getZ()**2))/self.__mass
 
         print(str(vector(aX, aY, aZ)))
-        time.sleep(1)
+        #time.sleep(1)
 
         return vector(aX, aY, aZ)
 
@@ -229,7 +229,7 @@ while stop!=True:
     vAcc = vector(0.5, 0.5, 0)
 
 
-    deTest = dropCalculations(vVe, ptP, ptD, 1.2, 1.2, 6, 3.1928, 3.1928, 1.225, 0.1, 17)
+    deTest = dropCalculations(vVe, ptP, ptD, 1.2, 1.2, 6, 3.1928, 3.1928, 1.225, 0.01, 17)
     print(deTest.calcDropSpotGeoCord())
 
     stop = True
