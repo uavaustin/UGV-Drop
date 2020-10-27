@@ -134,13 +134,13 @@ class dropCalculations:
         return output
 
     def forcesCalculator(self, dragCoeff: float, surfaceArea: float, vThisStep: vector):
-        #print("step")
+        print("step")
         aX = ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getX()**2))/self.__mass
         aY= ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getY()**2))/self.__mass
         aZ = self.__g + ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getZ()**2))/self.__mass
 
-        #print(str(vector(aX, aY, aZ)))
-        #time.sleep(1)
+        print(str(vector(aX, aY, aZ)))
+        time.sleep(1)
 
         return vector(aX, aY, aZ)
 
@@ -163,22 +163,21 @@ class dropCalculations:
                           sCurr.getY() + vCurr.getY() * step,
                           sCurr.getZ() + vCurr.getZ() * step)
 
-           print("sCurr" + str(sCurr))
+            print("sCurr" + str(sCurr))
 
         while(round(abs(sCurr.getZ()), 3) < deploymentHeight):
 
-            #print(sCurr)
-            #print(str(round(abs(deploymentHeight + sCurr.getZ()), 3)))
+            print(sCurr)
+            print(str(round(abs(deploymentHeight + sCurr.getZ()), 3)))
             aNext = self.forcesCalculator(self.__dragCoeff2, a2 , vCurr)
             vCurr = vector(vCurr.getX() + aNext.getX() * step,
                            vCurr.getY() + aNext.getY() * step,
                            vCurr.getZ() + aNext.getZ() * step)
-            #print("vCurr: " +str(vCurr))
+            print("vCurr: " +str(vCurr))
             sCurr = point(sCurr.getX() + vCurr.getX() * step,
                           sCurr.getY() + vCurr.getY() * step,
                           sCurr.getZ() + vCurr.getZ() * step)
-
-           # print("sCurr" + str(sCurr))
+            print("sCurr" + str(sCurr))
 
         return sCurr
 
@@ -230,7 +229,7 @@ while stop!=True:
     vAcc = vector(0.5, 0.5, 0)
 
 
-    deTest = dropCalculations(vVe, ptP, ptD, 1.2, 1.2, 6, 3.1928, 3.1928, 1.225, 0.01, 17)
+    deTest = dropCalculations(vVe, ptP, ptD, 1.2, 1.2, 6, 3.1928, 3.1928, 1.225, 0.1, 17)
     print(deTest.calcDropSpotGeoCord())
 
     stop = True
