@@ -33,7 +33,7 @@ class TestMethods(inittest,TestCase):
         testPoint.setY(59.0012)
         testPoint.setZ(78.342)
 
-        elf.assertEqual(testPoint.getX(),100.774)
+        self.assertEqual(testPoint.getX(),100.774)
         self.assertEqual(testPoint.getX(),59.0012)
         self.assertEqual(testPoint.getX(),78.342)
 
