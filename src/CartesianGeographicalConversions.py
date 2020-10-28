@@ -43,8 +43,29 @@ class pointConversionTool:
         print("cartesian Point: " + str(cartesPoint))
         return cartesPoint
 
-    def pointToOrgS(self, pointObs: point, ):
+    def pointToOrgS(self, pointObs: point, dropGeoCord: geoCord):
+        # Naming convention (dimension)(location/origin)(R: radians, D: Degrees)
+        #Cartesian of where to drop from
+        x = pointObs.getX()
+        y = pointObs.getY()
+        alt = pointObs.getZ()
+        R = self.__rEarth
 
+        #Geographical of where to go expressed in radians
+        latOR = math.radians(dropGeoCord.getLat())
+        lonOR = math.radians(dropGeoCord.getLon())
+
+        #Finding where to Drop From in radians
+        latLR = ((y/R) + latOR)
+        lonLR = x/(2*R*math.asin(math.cos(latOR)))
+        lonLR = math.asin(lonLR) + (lonOR/2)
+        lonLR = lonLR*2
+
+        #Converting back from radians to degrees
+        latLD = math.degrees(latLR)
+        lonLD = math.degrees(lonLR)
+        output = geoCord(latLD, lonLD, alt)
+        return output
 
     def updateObsvPoint(self, observationPoint: geoCord):
         self.__obsPoint = observationPoint

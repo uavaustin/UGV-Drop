@@ -65,11 +65,12 @@ class dropCalculations:
                 step: float,
                 deploymentHeight: float):
 
-        #Converting to Cartesian
+        #Initializing the translator
         self.__translator = pointConversionTool(obsPoint, targetPoint)
+
+        #NO LONGER NEEDED (Or Accurate)
         projectileLoc = self.__translator.alignToOrigin(obsPoint)
         targetLoc = point(0, 0, 0)
-        print(self.__translator.pointToGeoCord(projectileLoc))
 
         #Phase 1 Phase 2 Drag Coefficients
         self.__dragCoeff1 = coeffOfDragPhase1
@@ -82,7 +83,7 @@ class dropCalculations:
         self.__sysA1 = systemArea1
         self.__sysA2 = systemArea2
 
-        # UGV/Projectile Location
+        # UGV/Projectile Location NO LONGER NEEDED
         self.__projX = projectileLoc.getX()
         self.__projY = projectileLoc.getY()
         self.__projZ = projectileLoc.getZ()
@@ -91,6 +92,9 @@ class dropCalculations:
         self.__tarX = targetLoc.getX()
         self.__tarY = targetLoc.getY()
         self.__tarZ = targetLoc.getZ()
+
+        #Only Used Target Location
+        self.__targetGeo = targetPoint
 
         #velocities
         self.__vX = velocityVector.getX()
@@ -123,16 +127,16 @@ class dropCalculations:
     def calcDropSpot(self):
         theDispVector = self.dropIterator(self.__step, self.__depHeight, self.__sysA1, self.__sysA2)
         print(theDispVector)
-        dropXComp = self.__tarX - theDispVector.getX()
-        dropYComp = self.__tarY - theDispVector.getY()
-        dropZComp = self.__tarZ - theDispVector.getZ()
+        dropXComp = 0 - theDispVector.getX()
+        dropYComp = 0 - theDispVector.getY()
+        dropZComp = 0 - theDispVector.getZ()
         currentDropSpot = point(dropXComp, dropYComp, dropZComp)
         print(currentDropSpot)
         return currentDropSpot
 
     def calcDropSpotGeoCord(self):
         coordinate = self.calcDropSpot()
-        output = self.__translator.pointToGeoCord(coordinate)
+        output = self.__translator.pointToOrgS(coordinate, self.__targetGeo)
         return output
 
     def forcesCalculator(self, dragCoeff: float, surfaceArea: float, vThisStep: vector):
@@ -260,9 +264,10 @@ while stop!=True:
     if (next=="stop") or  (next=="STOP") :
         stop = True 
     """
-debugTranslator = pointConversionTool(ptP, ptD)
-print("post\n")
-print(debugTranslator.alignToOrigin(ptP))
+#debugTranslator = pointConversionTool(ptP, ptD)
+#print("post\n")
+#transP = point(4, 4, 0)
+#print(debugTranslator.pointToOrgS(transP, ptD))
 
 
 plt.show()
