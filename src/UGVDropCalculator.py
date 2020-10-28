@@ -239,5 +239,8 @@ while stop!=True:
     if (next=="stop") or  (next=="STOP") :
         stop = True 
     """
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> defc6fe1958213fb22bc7c8eef0e8b31054164a3
