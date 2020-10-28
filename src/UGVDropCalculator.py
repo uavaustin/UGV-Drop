@@ -17,6 +17,7 @@ Assumptions:
 """
 import math
 import time
+import matplotlib.pyplot as plt
 import numpy
 from CartesianGeographicalConversions import *
 
@@ -151,8 +152,9 @@ class dropCalculations:
         sCurr = point(0,0,0)
         vCurr = vector(self.__vX, self.__vY, self.__vZ)
         aNext = vector(0,0,0)
+        tTotal = tTotal + self.__step
 
-        while(math.abs(self.__projZ + sCurr.getZ()) >  deploymentHeight):
+        while(abs(self.__projZ + sCurr.getZ()) >  deploymentHeight):
 
             print(deploymentHeight)
             aNext = self.forcesCalculator(self.__dragCoeff1, a1, vCurr)
@@ -163,7 +165,7 @@ class dropCalculations:
             sCurr = point(sCurr.getX() + vCurr.getX() * step,
                           sCurr.getY() + vCurr.getY() * step,
                           sCurr.getZ() + vCurr.getZ() * step)
-
+            plt.plot(sCurr.getZ, tTotal)
             print("sCurr" + str(sCurr))
 
         while(abs(sCurr.getZ()) < deploymentHeight):
@@ -239,4 +241,5 @@ while stop!=True:
     if (next=="stop") or  (next=="STOP") :
         stop = True 
     """
+
 
