@@ -69,7 +69,8 @@ class TestMethods(unittest.TestCase):
         self.assertAlmostEqual(testAlignCase.getY(), 12756274)
         self.assertAlmostEqual(testAlignCase.getZ(), 8)
 
-    """
+
+
     def testUpdateMethods(self):
         observe = geoCord(-0.001, -0.002, 2)
         origin = geoCord(0, 0, 0)
@@ -83,8 +84,9 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(testConversion.__orgPoint.getLon(), -1)
         self.assertEqual(testConversion.__orgPoint.getAlt(), 9001) #its over 9000!
         #these don't work yet
-    """
+
 
 
 if __name__ == '__main__':
     unittest.main()
+    

@@ -152,7 +152,8 @@ class dropCalculations:
         sCurr = point(0,0,0)
         vCurr = vector(self.__vX, self.__vY, self.__vZ)
         aNext = vector(0,0,0)
-        tTotal = tTotal + self.__step
+        tTotal = 0
+
 
         while(abs(self.__projZ + sCurr.getZ()) >  deploymentHeight):
 
@@ -165,10 +166,16 @@ class dropCalculations:
             sCurr = point(sCurr.getX() + vCurr.getX() * step,
                           sCurr.getY() + vCurr.getY() * step,
                           sCurr.getZ() + vCurr.getZ() * step)
-            plt.plot(sCurr.getZ, tTotal)
+
+            #Debugging and Data Analysis
+            tTotal = tTotal + self.__step
+            plt.figure(0)
+            plt.scatter(tTotal, self.__projZ+sCurr.getZ(), c = 'red')
+            plt.figure(1)
+            plt.scatter(tTotal, vCurr.getZ(), c='blue')
             print("sCurr" + str(sCurr))
 
-        while(abs(sCurr.getZ()) < deploymentHeight):
+        while(abs(sCurr.getZ()) < self.__projZ):
 
             print(sCurr)
             print(str(round(abs(deploymentHeight + sCurr.getZ()), 4)))
@@ -176,11 +183,23 @@ class dropCalculations:
             vCurr = vector(vCurr.getX() + aNext.getX() * step,
                            vCurr.getY() + aNext.getY() * step,
                            vCurr.getZ() + aNext.getZ() * step)
-            print("vCurr: " +str(vCurr))
+
             sCurr = point(sCurr.getX() + vCurr.getX() * step,
                           sCurr.getY() + vCurr.getY() * step,
                           sCurr.getZ() + vCurr.getZ() * step)
+
+
+            print("vCurr: " + str(vCurr))
             print("sCurr" + str(sCurr))
+            tTotal = tTotal + self.__step
+            plt.figure(0)
+            plt.scatter(tTotal, self.__projZ + sCurr.getZ(), c='red')
+            plt.xlabel("Time")
+            plt.ylabel("Altitude")
+            plt.figure(1)
+            plt.scatter(tTotal, vCurr.getZ(), c='blue')
+            plt.xlabel("Time")
+            plt.ylabel("Velocity")
 
         return sCurr
 
@@ -232,7 +251,7 @@ while stop!=True:
     vAcc = vector(0.5, 0.5, 0)
 
 
-    deTest = dropCalculations(vVe, ptP, ptD, 1.2, 1.2, 6, 3.1928, 3.1928, 1.225, 0.01, 17)
+    deTest = dropCalculations(vVe, ptP, ptD, 1.2, 1.2, 6, 1.1928, 1.1928, 1.225, 0.01, 17)
     print(deTest.calcDropSpotGeoCord())
 
     stop = True
@@ -243,3 +262,4 @@ while stop!=True:
     """
 
 
+plt.show()
