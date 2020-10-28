@@ -162,7 +162,7 @@ class dropCalculations:
 
         while(abs(self.__projZ + sCurr.getZ()) >  deploymentHeight):
 
-            print(deploymentHeight)
+            print("Current Altitude: " + str(self.__projZ + sCurr.getZ()))
             aNext = self.forcesCalculator(self.__dragCoeff1, a1, vCurr)
             vCurr = vector(vCurr.getX() + aNext.getX() * step,
                            vCurr.getY() + aNext.getX() * step,
@@ -185,8 +185,7 @@ class dropCalculations:
 
         while(abs(sCurr.getZ()) < self.__projZ):
 
-            print(sCurr)
-            print(str(round(abs(deploymentHeight + sCurr.getZ()), 4)))
+            print("Current Altitude: " + str(self.__projZ + sCurr.getZ()))
             aNext = self.forcesCalculator(self.__dragCoeff2, a2 , vCurr)
             vCurr = vector(vCurr.getX() + aNext.getX() * step,
                            vCurr.getY() + aNext.getY() * step,
