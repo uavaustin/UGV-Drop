@@ -17,9 +17,10 @@ Assumptions:
 """
 import math
 import time
-import matplotlib.pyplot as plt
 import numpy
 from CartesianGeographicalConversions import *
+from mpl_toolkits import mplot3d
+import matplotlib.pyplot as plt
 
 
 
@@ -178,6 +179,9 @@ class dropCalculations:
             plt.figure(1)
             plt.scatter(tTotal, vCurr.getZ(), c='blue')
             print("sCurr" + str(sCurr))
+            xArr.append(self.__projX+sCurr.getX())
+            yArr.append(self.__projY+sCurr.getY())
+            zArr.append(self.__projZ+sCurr.getZ())
 
         while(abs(sCurr.getZ()) < self.__projZ):
 
@@ -204,6 +208,10 @@ class dropCalculations:
             plt.scatter(tTotal, vCurr.getZ(), c='blue')
             plt.xlabel("Time")
             plt.ylabel("Velocity")
+            xArr.append(self.__projX + sCurr.getX())
+            yArr.append(self.__projY + sCurr.getY())
+            zArr.append(self.__projZ + sCurr.getZ())
+
 
         return sCurr
 
@@ -218,6 +226,9 @@ class dropCalculations:
 Debugging UI
 
 """
+xArr = []
+yArr = []
+zArr = []
 
 stop = False
 while stop!=True:
@@ -254,7 +265,6 @@ while stop!=True:
     """
     vAcc = vector(0.5, 0.5, 0)
 
-
     deTest = dropCalculations(vVe, ptP, ptD, 1.2, 1.2, 6, 1.1928, 1.1928, 1.225, 0.01, 17)
     print(deTest.calcDropSpotGeoCord())
 
@@ -269,5 +279,8 @@ while stop!=True:
 #transP = point(4, 4, 0)
 #print(debugTranslator.pointToOrgS(transP, ptD))
 
+fig = plt.figure(2)
+ax = fig.add_subplot(1, 1, 1, projection='3d')
+ax.scatter3D(xArr, yArr, zArr, c='r', marker='o')
 
 plt.show()
