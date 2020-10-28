@@ -260,6 +260,9 @@ while stop!=True:
     if (next=="stop") or  (next=="STOP") :
         stop = True 
     """
+debugTranslator = pointConversionTool(ptP, ptD)
+print("post\n")
+print(debugTranslator.alignToOrigin(ptP))
 
 
 plt.show()

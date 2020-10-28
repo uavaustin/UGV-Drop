@@ -17,18 +17,34 @@ class pointConversionTool:
     def __init__(self, observationPoint: geoCord, originPoint: geoCord):
         self.__obsPoint = observationPoint
         self.__orgPoint = originPoint
-        self.__rEarth = 6378137 #equatorial radius Earth
+        self.__obsPoint = geoCord(self.__obsPoint.getLat() * (math.pi / 180),
+                                     self.__obsPoint.getLon() * (math.pi / 180),
+                                     self.__obsPoint.getAlt())
+        self.__orgPoint = geoCord(self.__orgPoint.getLat() * (math.pi / 180),
+                                     self.__orgPoint.getLon() * (math.pi / 180),
+                                     self.__orgPoint.getAlt())
+        self.__rEarth = 6378137  # equatorial radius Earth
+
+    def degToRadians(self, obsPoint: geoCord  ):
+        #Convert to Radians
+        radPoint = geoCord(obsPoint.getLat()*(math.pi/180),
+                           obsPoint.getLon()*(math.pi / 180),
+                           obsPoint.getAlt())
+        return radPoint
 
     def alignToOrigin(self, observationPoint: geoCord):
-        self.__obsPoint = observationPoint
+        self.__obsPoint = self.degToRadians(observationPoint)
         x = math.cos(self.__obsPoint.getLat())*math.sin((self.__obsPoint.getLon()-self.__orgPoint.getLon())/2)
         x = math.asin(x)
-        x = 2*self.__rEarth*x
-        y =self.__rEarth*(self.__obsPoint.getLat() - self.__orgPoint.getLat())
+        x = 2*self.__rEarth*x *(180/math.pi)
+        y =self.__rEarth*(self.__obsPoint.getLat() - self.__orgPoint.getLat()) *(180/math.pi)
         z = self.__obsPoint.getAlt()
         cartesPoint = point(x,y,z)
         print("cartesian Point: " + str(cartesPoint))
         return cartesPoint
+
+    def pointToOrgS(self, pointObs: point, ):
+
 
     def updateObsvPoint(self, observationPoint: geoCord):
         self.__obsPoint = observationPoint
@@ -38,13 +54,14 @@ class pointConversionTool:
 
     def pointToGeoCord(self, transPoint: point):
         print("TransPoint" + str(transPoint))
-        x = transPoint.getX()
-        y = transPoint.getY()
+        x = transPoint.getX()*math.pi/180
+        y = transPoint.getY()*math.pi/180
         alt = transPoint.getZ()
-        lon = (y/self.__rEarth) + self.__orgPoint.getLon()
+        lon = (y/self.__rEarth) + self.__orgPoint.getLon()*(180/math.pi)
         lat = x/(2*self.__rEarth)
         lat = lat/(math.sin((lon - self.__orgPoint.getLon())/2))
-        lat = math.acos(math.sin(lat))
+        lat = math.acos(math.sin(lat)) *(180/math.pi)
+        print("ObsPoint" + str(self.__obsPoint))
         return geoCord(lat, lon, alt)
 
 
