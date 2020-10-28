@@ -2,6 +2,7 @@
 Conversions
 """
 import math
+import unittest
 from CartesianCoordinate import *
 from CartesianVector import *
 from GeographicalCoordinate import *
