@@ -152,7 +152,7 @@ class dropCalculations:
         vCurr = vector(self.__vX, self.__vY, self.__vZ)
         aNext = vector(0,0,0)
 
-        while((self.__projZ + sCurr.getZ()) >  deploymentHeight):
+        while(math.abs(self.__projZ + sCurr.getZ()) >  deploymentHeight):
 
             print(deploymentHeight)
             aNext = self.forcesCalculator(self.__dragCoeff1, a1, vCurr)
@@ -166,7 +166,7 @@ class dropCalculations:
 
             print("sCurr" + str(sCurr))
 
-        while(round(abs(sCurr.getZ()), 4) < deploymentHeight):
+        while(abs(sCurr.getZ()) < deploymentHeight):
 
             print(sCurr)
             print(str(round(abs(deploymentHeight + sCurr.getZ()), 4)))
@@ -239,8 +239,4 @@ while stop!=True:
     if (next=="stop") or  (next=="STOP") :
         stop = True 
     """
-<<<<<<< HEAD
-=======
 
-
->>>>>>> defc6fe1958213fb22bc7c8eef0e8b31054164a3
