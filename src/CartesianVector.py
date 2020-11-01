@@ -1,3 +1,5 @@
+import unittest
+
 class vector:
     def __init__(self, xComp: float, yComp: float, zComp: float):
         self.__x = xComp
@@ -16,3 +18,24 @@ class vector:
 
     def getZ(self):
         return self.__z
+
+
+"""
+Unit testing section
+"""
+
+class TestMethods(unittest.TestCase):
+
+#test vector class and its methods
+    def testVectorMethods(self):
+        xv = 14.76
+        yv = -5.4321
+        zv = -9.426
+        testVector = vector(xv, yv, zv)
+
+        self.assertEqual(testVector.getX(), xv)
+        self.assertEqual(testVector.getY(), yv)
+        self.assertEqual(testVector.getZ(), zv)
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,3 +1,7 @@
+import unittest
+import math
+from CartesianCoordinate import *
+
 class geoCord:
     def __init__(self, Latitude: float, Longitude: float, Altitude: float):
         self.__lat = Latitude
@@ -45,4 +49,36 @@ class alignToOriginTool:
         self.__obsPoint = observationPoint
 
     def updateOrigin(self, originPoint: geoCord):
-        self.__orgPoint = pointOrigin
+        self.__orgPoint = originPoint
+
+
+"""
+Unit testing section
+"""
+
+class TestMethods(unittest.TestCase):
+
+#test alignToOriginTool class and its methods
+    def testAlignToolMethods(self):
+        observe = geoCord(-7.5, 10, 25)
+        origin = geoCord(0, 0, 0)
+        testOriginTool = alignToOriginTool(observe, origin)
+
+        testAlignCase = testOriginTool.alignToOrigin(geoCord(2, -5, 8))
+        self.assertAlmostEqual(testAlignCase.getX(), 3210774.4160264)
+        self.assertAlmostEqual(testAlignCase.getY(), 12756274)
+        self.assertAlmostEqual(testAlignCase.getZ(), 8)
+
+        testOriginTool.updateObsvPoint(geoCord(-27, 12, 6))
+        self.assertEqual(testOriginTool._alignToOriginTool__obsPoint.getLat(), -27)
+        self.assertEqual(testOriginTool._alignToOriginTool__obsPoint.getLon(), 12)
+        self.assertEqual(testOriginTool._alignToOriginTool__obsPoint.getAlt(), 6)
+
+        testOriginTool.updateOrigin(geoCord(1, -1, 10))
+        self.assertEqual(testOriginTool._alignToOriginTool__orgPoint.getLat(), 1)
+        self.assertEqual(testOriginTool._alignToOriginTool__orgPoint.getLon(), -1)
+        self.assertEqual(testOriginTool._alignToOriginTool__orgPoint.getAlt(), 10)
+
+
+if __name__ == '__main__':
+    unittest.main()
