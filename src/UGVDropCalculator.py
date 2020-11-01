@@ -165,7 +165,7 @@ class dropCalculations:
             print("Current Altitude: " + str(self.__projZ + sCurr.getZ()))
             aNext = self.forcesCalculator(self.__dragCoeff1, a1, vCurr)
             vCurr = vector(vCurr.getX() + aNext.getX() * step,
-                           vCurr.getY() + aNext.getX() * step,
+                           vCurr.getY() + aNext.getY() * step,
                            vCurr.getZ() + aNext.getZ() * step)
             print("vCurr: " + str(vCurr))
             sCurr = point(sCurr.getX() + vCurr.getX() * step,
@@ -182,6 +182,8 @@ class dropCalculations:
             xArr.append(self.__projX+sCurr.getX())
             yArr.append(self.__projY+sCurr.getY())
             zArr.append(self.__projZ+sCurr.getZ())
+            plt.figure(4)
+            plt.scatter(tTotal, aNext.getZ(), c = 'green')
 
         while(abs(sCurr.getZ()) < self.__projZ):
 
@@ -196,6 +198,7 @@ class dropCalculations:
                           sCurr.getZ() + vCurr.getZ() * step)
 
 
+            #Data Analysis
             print("vCurr: " + str(vCurr))
             print("sCurr" + str(sCurr))
             tTotal = tTotal + self.__step
@@ -210,7 +213,10 @@ class dropCalculations:
             xArr.append(self.__projX + sCurr.getX())
             yArr.append(self.__projY + sCurr.getY())
             zArr.append(self.__projZ + sCurr.getZ())
-
+            plt.figure(4)
+            plt.scatter(tTotal, aNext.getZ(), c='green')
+            plt.xlabel("Time")
+            plt.ylabel("Acceleration")
 
         return sCurr
 
@@ -264,7 +270,7 @@ while stop!=True:
     """
     vAcc = vector(0.5, 0.5, 0)
 
-    deTest = dropCalculations(vVe, ptP, ptD, 1.2, 1.2, 6, 1.1928, 1.1928, 1.225, 0.01, 17)
+    deTest = dropCalculations(vVe, ptP, ptD, 1.2, 2.4, 6, 1.1928, 4.1928, 1.225, 0.01, 17)
     print(deTest.calcDropSpotGeoCord())
 
     stop = True
@@ -316,4 +322,17 @@ set_axes_equal(ax)
 ax.set_xlabel("X")
 ax.set_ylabel("Y")
 ax.set_zlabel("Z")
+plt.figure(5)
+newViewX = numpy.array(xArr)**2
+newViewY = numpy.array(yArr)**2
+newThatView = newViewX+newViewY
+newThatView = numpy.array(newThatView**(1/2))
+finalBaseAxis = newThatView.tolist()
+plt.scatter(finalBaseAxis, zArr)
+plt.xlabel("Side View Axis?")
+plt.ylabel("Altitude")
+
 plt.show()
+
+#position, velocity, acceleration, with respect to time
+# 2-5x area and coefficient drag
