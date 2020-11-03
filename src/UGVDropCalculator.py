@@ -55,7 +55,7 @@ TO USE THIS CLASS:
 class dropCalculations:
     def __init__(self,
                 velocityVector: vector,
-                obsPoint: geoCord,
+                currentAltitude: float,
                 targetPoint: geoCord,
                 coeffOfDragPhase1: float,
                 coeffOfDragPhase2: float,
@@ -66,12 +66,6 @@ class dropCalculations:
                 step: float,
                 deploymentHeight: float):
 
-        #Initializing the translator
-        self.__translator = pointConversionTool(obsPoint, targetPoint)
-
-        #NO LONGER NEEDED (Or Accurate)
-        projectileLoc = self.__translator.alignToOrigin(obsPoint)
-        targetLoc = point(0, 0, 0)
 
         #Phase 1 Phase 2 Drag Coefficients
         self.__dragCoeff1 = coeffOfDragPhase1
@@ -84,15 +78,9 @@ class dropCalculations:
         self.__sysA1 = systemArea1
         self.__sysA2 = systemArea2
 
-        # UGV/Projectile Location NO LONGER NEEDED
-        self.__projX = projectileLoc.getX()
-        self.__projY = projectileLoc.getY()
-        self.__projZ = projectileLoc.getZ()
 
-        # Target Location
-        self.__tarX = targetLoc.getX()
-        self.__tarY = targetLoc.getY()
-        self.__tarZ = targetLoc.getZ()
+        #  Locations in Cartesian
+        self.__projZ = currentAltitude
 
         #Only Used Target Location
         self.__targetGeo = targetPoint
@@ -137,7 +125,7 @@ class dropCalculations:
 
     def calcDropSpotGeoCord(self):
         coordinate = self.calcDropSpot()
-        output = self.__translator.pointToOrgS(coordinate, self.__targetGeo)
+        output = cartGeoConv.alignToOrgin(coordinate, self.__targetGeo)
         return output
 
     def forcesCalculator(self, dragCoeff: float, surfaceArea: float, vThisStep: vector):
@@ -179,8 +167,8 @@ class dropCalculations:
             plt.figure(1)
             plt.scatter(tTotal, vCurr.getZ(), c='blue')
             print("sCurr" + str(sCurr))
-            xArr.append(self.__projX+sCurr.getX())
-            yArr.append(self.__projY+sCurr.getY())
+            xArr.append(sCurr.getX())
+            yArr.append(sCurr.getY())
             zArr.append(self.__projZ+sCurr.getZ())
             plt.figure(4)
             plt.scatter(tTotal, aNext.getZ(), c = 'green')
@@ -210,8 +198,8 @@ class dropCalculations:
             plt.scatter(tTotal, vCurr.getZ(), c='blue')
             plt.xlabel("Time")
             plt.ylabel("Velocity")
-            xArr.append(self.__projX + sCurr.getX())
-            yArr.append(self.__projY + sCurr.getY())
+            xArr.append(sCurr.getX())
+            yArr.append(sCurr.getY())
             zArr.append(self.__projZ + sCurr.getZ())
             plt.figure(4)
             plt.scatter(tTotal, aNext.getZ(), c='green')
@@ -243,7 +231,7 @@ while stop!=True:
     zDi = input("\n Z Component of Position (Projectile): ")
     ptP = point(xDi, yDi, zDi)
     """
-    ptP = geoCord(20.000, 18.777, 20)
+    #ptP = geoCord(20.000, 18.777, 20)
 
     """
     xDi = input("\n X Component of Position (DropSpot): ")
@@ -270,7 +258,7 @@ while stop!=True:
     """
     vAcc = vector(0.5, 0.5, 0)
 
-    deTest = dropCalculations(vVe, ptP, ptD, 1.2, 2.4, 6, 1.1928, 4.1928, 1.225, 0.01, 17)
+    deTest = dropCalculations(vVe, 20, ptD, 1.2, 2.4, 6, 1.1928, 4.1928, 1.225, 0.01, 17)
     print(deTest.calcDropSpotGeoCord())
 
     stop = True
@@ -330,6 +318,7 @@ newThatView = numpy.array(newThatView**(1/2))
 finalBaseAxis = newThatView.tolist()
 plt.scatter(finalBaseAxis, zArr)
 plt.xlabel("Side View Axis?")
+plt.axis('equal')
 plt.ylabel("Altitude")
 
 plt.show()

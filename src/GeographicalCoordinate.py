@@ -46,3 +46,4 @@ class alignToOriginTool:
 
     def updateOrigin(self, originPoint: geoCord):
         self.__orgPoint = pointOrigin
+
