@@ -79,6 +79,10 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(testOriginTool._alignToOriginTool__orgPoint.getLon(), -1)
         self.assertEqual(testOriginTool._alignToOriginTool__orgPoint.getAlt(), 10)
 
+"""
+    for the pointToOrgS method in Geo conversion file
+    
+"""
 
 if __name__ == '__main__':
     unittest.main()

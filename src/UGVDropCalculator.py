@@ -21,6 +21,7 @@ import numpy
 from CartesianGeographicalConversions import *
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
+import unittest
 
 
 
@@ -44,7 +45,7 @@ The dropCalclations class specifices the location and time? when a projectile sh
      @param airDensity          The density of the air
      @param step                The time step for the solver
      @param deploymentHeight    The height at which phase 2 is intiated
-    
+
 
 TO USE THIS CLASS:
 1. Create an instance with the properties of the projectile.
@@ -221,10 +222,18 @@ class dropCalculations:
         return sCurr
 
 
+"""
+Unit test section
 
+"""
 
+class TestMethods(unittest.TestCase):
 
+    #def someMethod
+        #code
 
+if __name__ == '__main__':
+    unittest.main()
 
 
 """
@@ -277,7 +286,7 @@ while stop!=True:
     """
     next = input("Stop?: ")
     if (next=="stop") or  (next=="STOP") :
-        stop = True 
+        stop = True
     """
 #debugTranslator = pointConversionTool(ptP, ptD)
 #print("post\n")
