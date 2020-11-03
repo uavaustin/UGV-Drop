@@ -18,7 +18,7 @@ Assumptions:
 import math
 import time
 import numpy
-from CartesianGeographicalConversions import *
+from CartGeoConversions import *
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 
@@ -34,7 +34,7 @@ The dropCalclations class specifices the location and time? when a projectile sh
 
     Input Variables:
      @param velocityVector      The initial velocity of the projectile
-     @param obsPoint            The location of the projectile
+     @param currentAltitude     The current altitude of the projectile
      @param targetPoint         The location of the target
      @param coeffOfDragPhase1   The coefficient of drag during phase 1
      @param coeffOfDragPhase2   The coefficient of drag during phase 2
@@ -43,7 +43,7 @@ The dropCalclations class specifices the location and time? when a projectile sh
      @param systemArea2         The area of the projectile in phase 2
      @param airDensity          The density of the air
      @param step                The time step for the solver
-     @param deploymentHeight    The height at which phase 2 is intiated
+     @param deploymentHeight    The height at which phase 2 is initiated
     
 
 TO USE THIS CLASS:

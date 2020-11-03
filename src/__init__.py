@@ -1,1 +1,2 @@
-__all__ = ["CartesianCoordinate", "CartesianGeographicalConversions","CartesianVector", "GeographicalCoordianate","UGVDropCalculator"]
+__all__ = ["CartesianCoordinate", "CartGeoConversions.py", "CartesianVector", "GeographicalCoordianate",
+           "DropCalculator.py"]
