@@ -4,7 +4,14 @@ All inputs are specified below in a standardized format. At the moment, the resu
 the terminal.
 
 Files Needed:
- src folder containing (__init__.py, CartesianCoordinate.py, CartGeoConversions.py,
+ src folder containing (__init__.py,
+                        CartesianCoordinate.py,
+                        CartesianVector.py,
+                        CartGeoConversions.py,
+                        DropCalculator.py,
+                        GeographicalCoordinate.py,
+                        DropDataManager.py (TO BE ADDED))
+
 
 Note: Projectile and UGV is used interchangeably though both terms represent the UGV.
 
@@ -29,34 +36,82 @@ import math
      @param airDensity          The density of the air
      @param step                The time step for the solver
      @param deploymentHeight    The height at which phase 2 is initiated
+
+
+deTest = dropCalculations(vVe, 20, ptD, 1.2, 2.4, 6, 1.1928, 4.1928, 1.225, 0.01, 17)
 """
 
 """
-The current velocity of the projectile in all three dimensions, expressed as a vector
+velV: The current velocity of the projectile in all three dimensions, expressed as a vector.
 """
-originPoint = geoCord(20.000,17.778,0)
+velV = vector(2,2,0.002)
 
 """
-Velocity Vector
+currAlt: The current altitude of the projectile in meters, expressed as a float.
 """
-veVel = vector(5,5,0)
+currAlt = 20.0
 
 """
-Acceleration Vector
+tarP: The current location of the UGV target in degrees, expressed as a geographical coordinate
 """
-veAcc= vector(0.5,0.5,0.002)
+tarP = geoCord(20.000,17.778,0)
 
 """
-Projectile Properties
+coeff1: The coefficient of drag in the first phase, expressed as a float.
 """
-systemMass = 1.000
-chuteArea = 1.000
-chuteDragCoeff = 1.200
-chuteDeployTime = 2.500
+coeff1 = 1.2
 
 """
-Computation
+coeff2: The coefficient of drag in the first phase, expressed as a float.
 """
+coeff2 = 2.4
 
-dropCalculator = dropCalculations(veAcc, veAcc, obsPointCart, orgPointCart, chuteDragCoeff, systemMass, chuteArea, chuteDeployTime)
-print(dropCalculator.calcDropSpot())
+"""
+sysMass: The mass of the projectile in kilograms, expressed as a float.
+"""
+sysMass = 6
+
+"""
+sysArea1: The surface area of the projectile system during phase 1 in meters squared, expressed as a float.
+"""
+sysArea1 = 1.1928
+
+"""
+sysArea2: The surface area of the projectile system during phase 2 in meters squared, expressed as a float.
+"""
+sysArea2 = 4.1928
+
+"""
+airDens: The density of the air in which the projectile is falling in kilograms per meter squared, expressed as a float.
+"""
+airDens = 1.225
+
+"""
+phase2Alt: The altitude at which successful chute deployment occurs at the projectile enters phase 2 in meters, expressed as a float.
+"""
+phase2Alt = 17
+
+"""
+step: The time step for the forces solver in the drop calculator in seconds, expressed as a float.
+"""
+step = 0.01
+
+dropCalculate = dropCalculations(velV,
+                          currAlt,
+                          tarP,
+                          coeff1,
+                          coeff2,
+                          sysMass,
+                          sysArea1,
+                          sysArea2,
+                          airDens,
+                          phase2Alt,
+                          step)
+print(dropCalculate.calcDropSpotGeoCord())
+
+
+
+
+
+
+

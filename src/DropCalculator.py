@@ -63,8 +63,8 @@ class dropCalculations:
                 systemArea1: float,
                 systemArea2: float,
                 airDensity: float,
-                step: float,
-                deploymentHeight: float):
+                deploymentHeight: float,
+                step: float ):
 
 
         #Phase 1 Phase 2 Drag Coefficients
@@ -258,7 +258,7 @@ while stop!=True:
     """
     vAcc = vector(0.5, 0.5, 0)
 
-    deTest = dropCalculations(vVe, 20, ptD, 1.2, 2.4, 6, 1.1928, 4.1928, 1.225, 0.01, 17)
+    deTest = dropCalculations(vVe, 20, ptD, 1.2, 2.4, 6, 1.1928, 4.1928, 1.225, 17.0, 0.01)
     print(deTest.calcDropSpotGeoCord())
 
     stop = True
