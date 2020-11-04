@@ -96,6 +96,12 @@ class dropCalculations:
         #Deployment Height
         self.__depHeight = deploymentHeight
 
+        #Loading Data Arrays
+        self.__xArr = []
+        self.__yArr = []
+        self.__zArr = []
+        self.__checkLoad = False
+
     def updateLocation(self, x: float, y: float, z: float):
         self.__projX = x
         self.__projY = y
@@ -167,9 +173,9 @@ class dropCalculations:
             plt.figure(1)
             plt.scatter(tTotal, vCurr.getZ(), c='blue')
             print("sCurr" + str(sCurr))
-            xArr.append(sCurr.getX())
-            yArr.append(sCurr.getY())
-            zArr.append(self.__projZ+sCurr.getZ())
+            self.__xArr.append(sCurr.getX())
+            self.__yArr.append(sCurr.getY())
+            self.__zArr.append(self.__projZ+sCurr.getZ())
             plt.figure(4)
             plt.scatter(tTotal, aNext.getZ(), c = 'green')
 
@@ -198,9 +204,9 @@ class dropCalculations:
             plt.scatter(tTotal, vCurr.getZ(), c='blue')
             plt.xlabel("Time")
             plt.ylabel("Velocity")
-            xArr.append(sCurr.getX())
-            yArr.append(sCurr.getY())
-            zArr.append(self.__projZ + sCurr.getZ())
+            self.__xArr.append(sCurr.getX())
+            self.__yArr.append(sCurr.getY())
+            self.__zArr.append(self.__projZ + sCurr.getZ())
             plt.figure(4)
             plt.scatter(tTotal, aNext.getZ(), c='green')
             plt.xlabel("Time")
@@ -208,7 +214,10 @@ class dropCalculations:
 
         return sCurr
 
-
+    def dataOutput(self):
+        if not self.__checkLoad:
+            raise Exception("Data was not loaded. Run the drop calculator before accessing data")
+        return numpy.array(self.__xArr, self.__yArr, self.__zArr)
 
 
 

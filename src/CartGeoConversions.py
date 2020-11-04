@@ -6,6 +6,9 @@ import unittest
 from CartesianCoordinate import *
 from CartesianVector import *
 from GeographicalCoordinate import *
+
+
+
 """
 The alignToOriginTool can be used to translate a geoCord to a point at a specified origin
     @param observationPoint The geoCord defined as the observation location
@@ -49,7 +52,7 @@ class TestMethods(unittest.TestCase):
         origin = geoCord(0, 0, 0)
         testConversion = pointConversionTool(observe, origin)
 
-        testResult = testConversion.pointToGeoCord(point(-.01, 1, .01))
+        testResult = testConversion.pointToGeoCord(pointConversionTool(-.01, 1, .01))
         self.assertAlmostEqual(testResult.getLat(),1.58079632679)
         self.assertAlmostEqual(testResult.getLon(),.00000015678559429)
         self.assertAlmostEqual(testResult.getAlt(),.01)
