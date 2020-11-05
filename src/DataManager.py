@@ -7,7 +7,6 @@ based on the data output by the dropCalculator.
 
 #TBD
 import math
-import time
 import numpy
 from DropCalculator import *
 from mpl_toolkits import mplot3d
@@ -33,19 +32,19 @@ class dropDataManager:
 
     def buildAltChart(self):
         plt.figure(1)
-        plt.scatter(self.__tArr, self.__zArr)
+        plt.scatter(self.__tArr, self.__zArr, c='r', marker='o')
         plt.xlabel("Time")
         plt.ylabel("Altitude")
 
     def buildVelChart(self):
         plt.figure(2)
-        plt.scatter(self.__tArr, self.__zVelArr)
+        plt.scatter(self.__tArr, self.__zVelArr, c='g', marker='o')
         plt.xlabel("Time")
         plt.ylabel("Velocity")
 
     def buildAccChart(self):
         plt.figure(3)
-        plt.scatter(self.__tArr, self.__zAccArr)
+        plt.scatter(self.__tArr, self.__zAccArr, c='b', marker='o')
         plt.xlabel("Time")
         plt.ylabel("Acceleration")
 
@@ -53,7 +52,7 @@ class dropDataManager:
         plt.figure(4)
         fig = plt.figure(4)
         ax = fig.add_subplot(1, 1, 1, projection='3d')
-        ax.scatter3D(self.__xArr, self.__yArr, self.__zArr, c='r', marker='o')
+        ax.scatter3D(self.__xArr, self.__yArr, self.__zArr, c='c', marker='o')
         self.set_axes_equal(ax)
         ax.set_xlabel("X")
         ax.set_ylabel("Y")
@@ -66,7 +65,7 @@ class dropDataManager:
         nAx = nX + nY
         nAx = numpy.array(nAx ** (1 / 2))
         finalBaseAxis = nAx.tolist()
-        plt.scatter(finalBaseAxis, self.__zArr)
+        plt.scatter(finalBaseAxis, self.__zArr, c='m', marker='o')
         plt.xlabel("Along Axis of Motion")
         plt.ylabel("Altitude")
         plt.axis('equal')
@@ -81,8 +80,11 @@ class dropDataManager:
     def showData(self):
         plt.show()
 
+    def deBUG(self):
+        self.buildAccChart()
+
     #Credit to the person on StackExchange that made this method to make the 3d axises symmetrical
-    def set_axes_equal(ax):
+    def set_axes_equal(self, ax):
         '''Make axes of 3D plot have equal scale so that spheres appear as spheres,
         cubes as cubes, etc..  This is one possible solution to Matplotlib's
         ax.set_aspect('equal') and ax.axis('equal') not working for 3D.
@@ -109,4 +111,16 @@ class dropDataManager:
         ax.set_xlim3d([x_middle - plot_radius, x_middle + plot_radius])
         ax.set_ylim3d([y_middle - plot_radius, y_middle + plot_radius])
         ax.set_zlim3d([z_middle - plot_radius, z_middle + plot_radius])
+
+"""
+Functionality Check
+"""
+ptD = geoCord(20.0001, 18.778, 0)
+vVe = vector(2, 2, 0.002)
+vAcc = vector(0.5, 0.5, 0)
+dropCalc = dropCalculations(vVe, 20, ptD, 1.2, 2.4, 6, 1.1928, 4.1928, 1.225, 17.0, 0.01)
+print(dropCalc.calcDropSpotGeoCord())
+manager = dropDataManager(dropCalc.dataOutput())
+manager.buildAll()
+manager.showData()
 

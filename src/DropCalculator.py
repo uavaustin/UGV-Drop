@@ -289,10 +289,10 @@ print(deTest.calcDropSpotGeoCord())
 
 
 #Everything Below is for the Data Visualization
-fig = plt.figure(2)
-ax = fig.add_subplot(1, 1, 1, projection='3d')
-dataPull = deTest.dataOutput()
-ax.scatter3D(dataPull[0], dataPull[1], dataPull[2], c='r', marker='o')
+#fig = plt.figure(2)
+#ax = fig.add_subplot(1, 1, 1, projection='3d')
+#dataPull = deTest.dataOutput()
+#ax.scatter3D(dataPull[0], dataPull[1], dataPull[2], c='r', marker='o')
 
 def set_axes_equal(ax):
     '''Make axes of 3D plot have equal scale so that spheres appear as spheres,
@@ -322,22 +322,22 @@ def set_axes_equal(ax):
     ax.set_ylim3d([y_middle - plot_radius, y_middle + plot_radius])
     ax.set_zlim3d([z_middle - plot_radius, z_middle + plot_radius])
 
-set_axes_equal(ax)
-ax.set_xlabel("X")
-ax.set_ylabel("Y")
-ax.set_zlabel("Z")
-plt.figure(5)
-newViewX = numpy.array(dataPull[0])**2
-newViewY = numpy.array(dataPull[1])**2
-newThatView = newViewX+newViewY
-newThatView = numpy.array(newThatView**(1/2))
-finalBaseAxis = newThatView.tolist()
-plt.scatter(finalBaseAxis, dataPull[2])
-plt.xlabel("Side View Axis?")
-plt.axis('equal')
-plt.ylabel("Altitude")
+#set_axes_equal(ax)
+#ax.set_xlabel("X")
+#ax.set_ylabel("Y")
+#ax.set_zlabel("Z")
+#plt.figure(5)
+#newViewX = numpy.array(dataPull[0])**2
+#newViewY = numpy.array(dataPull[1])**2
+#newThatView = newViewX+newViewY
+#newThatView = numpy.array(newThatView**(1/2))
+#finalBaseAxis = newThatView.tolist()
+#plt.scatter(finalBaseAxis, dataPull[2])
+#plt.xlabel("Side View Axis?")
+#plt.axis('equal')
+#plt.ylabel("Altitude")
 
-plt.show()
+#plt.show()
 
 #position, velocity, acceleration, with respect to time
 # 2-5x area and coefficient drag
