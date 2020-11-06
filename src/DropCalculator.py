@@ -109,6 +109,9 @@ class dropCalculations:
         self.__dataSet = []
         self.__checkLoad = False
 
+        #DebuggingToggle
+        self.__debugPrintToggle = False
+
     def updateLocation(self, x: float, y: float, z: float):
         self.__projX = x
         self.__projY = y
@@ -128,12 +131,16 @@ class dropCalculations:
 
     def calcDropSpot(self):
         theDispVector = self.dropIterator(self.__step, self.__depHeight, self.__sysA1, self.__sysA2)
-        print(theDispVector)
         dropXComp = 0 - theDispVector.getX()
         dropYComp = 0 - theDispVector.getY()
         dropZComp = 0 - theDispVector.getZ()
         currentDropSpot = point(dropXComp, dropYComp, dropZComp)
-        print(currentDropSpot)
+
+        #Debugging Print Statements
+        if self.__debugPrintToggle:
+            print(theDispVector)
+            print(currentDropSpot)
+
         self.__checkLoad = True
         return currentDropSpot
 
@@ -143,14 +150,15 @@ class dropCalculations:
         return output
 
     def forcesCalculator(self, dragCoeff: float, surfaceArea: float, vThisStep: vector):
-        print("step")
         aX = (-1*numpy.sign(self.__vX))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getX()**2))/self.__mass
         aY= (-1*numpy.sign(self.__vY))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getY()**2))/self.__mass
         aZ = self.__g + ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getZ()**2))/self.__mass
 
-        print(str(vector(aX, aY, aZ)))
+        #Debugging Print
+        if self.__debugPrintToggle:
+            print("step")
+            print(str(vector(aX, aY, aZ)))
         #time.sleep(1)
-
         return vector(aX, aY, aZ)
 
     def dropIterator(self, timeInterval: float, deploymentHeight: float, a1: float, a2: float):
@@ -173,7 +181,7 @@ class dropCalculations:
                           sCurr.getY() + vCurr.getY() * step,
                           sCurr.getZ() + vCurr.getZ() * step)
 
-            #Debugging and Data Analysis
+            #Data Grab
             tTotal = tTotal + self.__step
             self.__xArr.append(sCurr.getX())
             self.__yArr.append(sCurr.getY())
@@ -181,19 +189,15 @@ class dropCalculations:
             self.__zVelArr.append(vCurr.getZ())
             self.__zAccArr.append(aNext.getZ())
             self.__tArr.append(tTotal)
-            #print("Current Altitude: " + str(self.__projZ + sCurr.getZ()))
-            #print("vCurr: " + str(vCurr))
-            #plt.figure(0)
-            #plt.scatter(tTotal, self.__projZ+sCurr.getZ(), c = 'red')
-            #plt.figure(1)
-            #plt.scatter(tTotal, vCurr.getZ(), c='blue')
-            #print("sCurr" + str(sCurr))
-            #plt.figure(4)
-            #plt.scatter(tTotal, aNext.getZ(), c = 'green')
+
+            #Debugging Print Statements
+            if self.__debugPrintToggle:
+                print("Current Altitude: " + str(self.__projZ + sCurr.getZ()))
+                print("vCurr: " + str(vCurr))
+                print("sCurr" + str(sCurr))
 
         while(abs(sCurr.getZ()) < self.__projZ):
 
-            print("Current Altitude: " + str(self.__projZ + sCurr.getZ()))
             aNext = self.forcesCalculator(self.__dragCoeff2, a2 , vCurr)
             vCurr = vector(vCurr.getX() + aNext.getX() * step,
                            vCurr.getY() + aNext.getY() * step,
@@ -204,7 +208,7 @@ class dropCalculations:
                           sCurr.getZ() + vCurr.getZ() * step)
 
 
-            #Data Analysis
+            #Data Grab
             tTotal = tTotal + self.__step
             self.__xArr.append(sCurr.getX())
             self.__yArr.append(sCurr.getY())
@@ -212,24 +216,13 @@ class dropCalculations:
             self.__zVelArr.append(vCurr.getZ())
             self.__zAccArr.append(aNext.getZ())
             self.__tArr.append(tTotal)
-            #print("vCurr: " + str(vCurr))
-            #print("sCurr" + str(sCurr))
-            #tTotal = tTotal + self.__step
-            #plt.figure(0)
-            #plt.scatter(tTotal, self.__projZ + sCurr.getZ(), c='red')
-            #plt.xlabel("Time")
-            #plt.ylabel("Altitude")
-            #plt.figure(1)
-            #plt.scatter(tTotal, vCurr.getZ(), c='blue')
-            #plt.xlabel("Time")
-            #plt.ylabel("Velocity")
-            #self.__xArr.append(sCurr.getX())
-            #self.__yArr.append(sCurr.getY())
-            #self.__zArr.append(self.__projZ + sCurr.getZ())
-            #plt.figure(4)
-            #plt.scatter(tTotal, aNext.getZ(), c='green')
-            #plt.xlabel("Time")
-            #plt.ylabel("Acceleration")
+
+            #Debugging Print Toggle
+            # Debugging Print Statements
+            if self.__debugPrintToggle:
+                print("Current Altitude: " + str(self.__projZ + sCurr.getZ()))
+                print("vCurr: " + str(vCurr))
+                print("sCurr" + str(sCurr))
 
         return sCurr
 
@@ -239,108 +232,5 @@ class dropCalculations:
         dataDump = [self.__xArr, self.__yArr, self.__zArr, self.__zVelArr, self.__zAccArr, self.__tArr]
         return dataDump
 
-
-
-
-
-"""
-Debugging UI
-
-"""
-
-"""
-xDi = input("\n X Component of Position (Projectile): ")
-yDi = input("\n Y Component of Position (Projectile): ")
-zDi = input("\n Z Component of Position (Projectile): ")
-ptP = point(xDi, yDi, zDi)
-"""
-#ptP = geoCord(20.000, 18.777, 20)
-
-"""
-xDi = input("\n X Component of Position (DropSpot): ")
-yDi = input("\n Y Component of Position (DropSpot): ")
-zDi = input("\n Z Component of Position (DropSpot): ")
-ptD = point(xDi, yDi, zDi)
-"""
-ptD = geoCord(20.0001, 18.778, 0)
-
-"""
-xDi = input("\n X Component of Velocity (Projectile): ")
-yDi = input("\n Y Component of Velocity (Projectile): ")
-zDi = input("\n Z Component of Velocity (Projectile): ")
-vVe = vector(xDi, yDi, zDi)
-"""
-vVe = vector(2, 2, 0.002)
-
-
-"""
-xDi = input("\n X Component of Acceleration (Projectile): ")
-yDi = input("\n Y Component of Acceleration (Projectile): ")
-zDi = input("\n Z Component of Acceleration (Projectile): ")
-vAcc = vector(xDi, yDi, zDi)
-"""
-vAcc = vector(0.5, 0.5, 0)
-
-deTest = dropCalculations(vVe, 20, ptD, 1.2, 2.4, 6, 1.1928, 4.1928, 1.225, 17.0, 0.01)
-print(deTest.calcDropSpotGeoCord())
-
-
-#debugTranslator = pointConversionTool(ptP, ptD)
-#print("post\n")
-#transP = point(4, 4, 0)
-#print(debugTranslator.pointToOrgS(transP, ptD))
-
-
-#Everything Below is for the Data Visualization
-#fig = plt.figure(2)
-#ax = fig.add_subplot(1, 1, 1, projection='3d')
-#dataPull = deTest.dataOutput()
-#ax.scatter3D(dataPull[0], dataPull[1], dataPull[2], c='r', marker='o')
-
-def set_axes_equal(ax):
-    '''Make axes of 3D plot have equal scale so that spheres appear as spheres,
-    cubes as cubes, etc..  This is one possible solution to Matplotlib's
-    ax.set_aspect('equal') and ax.axis('equal') not working for 3D.
-
-    Input
-      ax: a matplotlib axis, e.g., as output from plt.gca().
-    '''
-
-    x_limits = ax.get_xlim3d()
-    y_limits = ax.get_ylim3d()
-    z_limits = ax.get_zlim3d()
-
-    x_range = abs(x_limits[1] - x_limits[0])
-    x_middle = numpy.mean(x_limits)
-    y_range = abs(y_limits[1] - y_limits[0])
-    y_middle = numpy.mean(y_limits)
-    z_range = abs(z_limits[1] - z_limits[0])
-    z_middle = numpy.mean(z_limits)
-
-    # The plot bounding box is a sphere in the sense of the infinity
-    # norm, hence I call half the max range the plot radius.
-    plot_radius = 0.5*max([x_range, y_range, z_range])
-
-    ax.set_xlim3d([x_middle - plot_radius, x_middle + plot_radius])
-    ax.set_ylim3d([y_middle - plot_radius, y_middle + plot_radius])
-    ax.set_zlim3d([z_middle - plot_radius, z_middle + plot_radius])
-
-#set_axes_equal(ax)
-#ax.set_xlabel("X")
-#ax.set_ylabel("Y")
-#ax.set_zlabel("Z")
-#plt.figure(5)
-#newViewX = numpy.array(dataPull[0])**2
-#newViewY = numpy.array(dataPull[1])**2
-#newThatView = newViewX+newViewY
-#newThatView = numpy.array(newThatView**(1/2))
-#finalBaseAxis = newThatView.tolist()
-#plt.scatter(finalBaseAxis, dataPull[2])
-#plt.xlabel("Side View Axis?")
-#plt.axis('equal')
-#plt.ylabel("Altitude")
-
-#plt.show()
-
-#position, velocity, acceleration, with respect to time
-# 2-5x area and coefficient drag
+    def toggleDebug(self, status: bool):
+        self.__debugPrintToggle = status

@@ -117,6 +117,7 @@ class dropDataManager:
 """
 Functionality Check
 """
+"""
 ptD = geoCord(20.0001, 18.778, 0)
 vVe = vector(2, 2, 0.002)
 vAcc = vector(0.5, 0.5, 0)
@@ -125,4 +126,4 @@ print(dropCalc.calcDropSpotGeoCord())
 manager = dropDataManager(dropCalc.dataOutput())
 manager.buildAll()
 manager.showData()
-
+"""
