@@ -3,9 +3,9 @@ Conversions
 """
 import math
 import unittest
-from CartesianCoordinate import *
-from CartesianVector import *
-from GeographicalCoordinate import *
+from .CartesianCoordinate import point
+from .CartesianVector import vector
+from .GeographicalCoordinate import geoCord
 
 
 

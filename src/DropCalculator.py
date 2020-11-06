@@ -10,7 +10,7 @@ Inputs:
 
 Assumptions:
     The coefficient of drag for parachute is known.
-    The Projectile vertically when during the time the chute is being deployed.
+    The drag areas are known.
 
 @author: rishthak
 
@@ -18,7 +18,10 @@ Assumptions:
 import math
 import time
 import numpy
-from CartGeoConversions import *
+from .CartesianCoordinate import point
+from .CartesianVector import vector
+from .GeographicalCoordinate import geoCord
+from .CartGeoConversions import cartGeoConv
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 

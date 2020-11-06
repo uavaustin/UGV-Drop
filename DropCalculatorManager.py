@@ -10,7 +10,7 @@ Files Needed:
                         CartGeoConversions.py,
                         DropCalculator.py,
                         GeographicalCoordinate.py,
-                        DropDataManager.py (TO BE ADDED))
+                        DataManager.py )
 
 
 Note: Projectile and UGV is used interchangeably though both terms represent the UGV.
@@ -19,7 +19,13 @@ Note: Projectile and UGV is used interchangeably though both terms represent the
 
 """
 
-from src import *
+from src.DropCalculator import dropCalculations
+from src.GeographicalCoordinate import geoCord
+from src.CartesianVector import vector
+from src.DataManager import manageDropData
+
+from mpl_toolkits import mplot3d
+import matplotlib.pyplot as plt
 import math
 
 """
@@ -107,7 +113,9 @@ dropCalculate = dropCalculations(velV,
                           airDens,
                           phase2Alt,
                           step)
-print(dropCalculate.calcDropSpotGeoCord())
+dataPull = dropCalculator.dataOutput()
+manager = manageDropData(dataPull)
+manager.show()
 
 
 

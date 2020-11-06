@@ -8,7 +8,9 @@ based on the data output by the dropCalculator.
 #TBD
 import math
 import numpy
-from DropCalculator import *
+from .DropCalculator import dropCalculations
+from .GeographicalCoordinate import geoCord
+from. CartesianVector import  vector
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 
