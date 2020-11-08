@@ -19,7 +19,13 @@ Note: Projectile and UGV is used interchangeably though both terms represent the
 
 """
 
-from src import *
+from src.DropCalculator import dropCalculations
+from src.GeographicalCoordinate import geoCord
+from src.CartesianVector import vector
+from src.DataManager import dropDataManager
+
+from mpl_toolkits import mplot3d
+import matplotlib.pyplot as plt
 import math
 
 """
@@ -96,7 +102,10 @@ step: The time step for the forces solver in the drop calculator in seconds, exp
 """
 step = 0.01
 
-dropCalculate = dropCalculations(velV,
+"""
+Actual Calculations
+"""
+dropCalculator = dropCalculations(velV,
                           currAlt,
                           tarP,
                           coeff1,
@@ -107,11 +116,16 @@ dropCalculate = dropCalculations(velV,
                           airDens,
                           phase2Alt,
                           step)
-print(dropCalculate.calcDropSpotGeoCord())
+output = dropCalculator.calcDropSpotGeoCord()
+dataPull = dropCalculator.dataOutput()
 
+"""
+Data Outputs. Make sure a calcDropSpotGeoCord() or calcDropSpot() method is called to load the data.
+"""
+manager = dropDataManager(dataPull)
+manager.buildAll()
+manager.showData()
 
-
-
-
-
-
+"""
+Toggle Print Outputs to Debug Data
+"""
