@@ -2,21 +2,42 @@
 The DataManager class handles the data management for the dropCalculator. Specifically, it can produces various graphs
 based on the data output by the dropCalculator.
 
+The DataManager class needs to import the following files and respective classes:
+                        math
+                        numpy
+                        DropCalculator: dropCalculations
+                        GeographicalCoordinate: geoCord
+                        CartesianVector:  vector
+                        mpl_toolkits: mplot3d
+                        matplotlib: pyplot as plt
+
 @author rishthak
 """
 
 #TBD
 import math
 import numpy
-from .DropCalculator import dropCalculations
-from .GeographicalCoordinate import geoCord
-from. CartesianVector import  vector
+from DropCalculator import dropCalculations
+from GeographicalCoordinate import geoCord
+from CartesianVector import vector
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
+#from mpl_toolkits.basemap import Basemap
 
 """
 The dropDataManager class is used to create and display graphs from the DropCalculator data. This class works in
 conjunction with DropCalculator.
+
+The class supports 5 types of data display:
+    * Altitude vs Time
+    * Velocity vs Time
+    * Acceleration vs Time
+    * A 3D chart showing the projectile's displacement in all three directions.
+    * A chart showing the projectile's directly perpendicular to the axis of it's motion. (Inappropriately labeled as 
+      buildAlongAxis below)
+      
+    *** Special Thanks to "karlo" from StackExchange on creating a method for equalizing the axises of the 3d graph
+        in matplotlib ***
 
 @param dropCalcSet The data loaded in from the drop calculations. 
 
@@ -85,7 +106,7 @@ class dropDataManager:
     def deBUG(self):
         self.buildAccChart()
 
-    #Credit to the person on StackExchange that made this method to make the 3d axises symmetrical
+    #Credit to "karlo" on StackExchange that made this method to make the 3d axises symmetrical
     def set_axes_equal(self, ax):
         '''Make axes of 3D plot have equal scale so that spheres appear as spheres,
         cubes as cubes, etc..  This is one possible solution to Matplotlib's

@@ -1,12 +1,10 @@
 """
 The UGVDropCalculator calculates the location at which a projectile needs to be dropped to reach an intended target.
+The class derives all of the forces acting on the projectile in a given moment, then predicts the projectile's motion
+in the next time step.
 
 Inputs:
-    * Drag Coefficient of the Parachute
-    * Air Density
-    * The Position Vector of the UGV
-    * The Velocity Vector of the UGV
-    * The Acceleration Vector of the UGV
+    * Defined below
 
 Assumptions:
     The coefficient of drag for parachute is known.
@@ -18,10 +16,10 @@ Assumptions:
 import math
 import time
 import numpy
-from .CartesianCoordinate import point
-from .CartesianVector import vector
-from .GeographicalCoordinate import geoCord
-from .CartGeoConversions import cartGeoConv
+from CartesianCoordinate import point
+from CartesianVector import vector
+from GeographicalCoordinate import geoCord
+from CartGeoConversions import cartGeoConv
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 
@@ -30,7 +28,7 @@ import matplotlib.pyplot as plt
 
 
 """
-The dropCalclations class specifices the location and time? when a projectile should dropped to land on a target
+The dropCalculations class specifies the location and time? when a projectile should dropped to land on a target
     Input variables can be updated if not immediately known.
     Only one instance of this class is required to compute the drop location for a continous calculation of the drop spot.
     All units are in metric units: meters, kg, seconds, etc.
