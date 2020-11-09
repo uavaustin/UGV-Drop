@@ -16,10 +16,10 @@ Assumptions:
 import math
 import time
 import numpy
-from CartesianCoordinate import point
-from CartesianVector import vector
-from GeographicalCoordinate import geoCord
-from CartGeoConversions import cartGeoConv
+from src.CartesianCoordinate import point
+from src.CartesianVector import vector
+from src.GeographicalCoordinate import geoCord
+from src.CartGeoConversions import cartGeoConv
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 

@@ -6,9 +6,9 @@ The CartGeoConversions converts cartesian information into a geographical coordi
 """
 import math
 import unittest
-from CartesianCoordinate import point
-from CartesianVector import vector
-from GeographicalCoordinate import geoCord
+from src.CartesianCoordinate import point
+from src.CartesianVector import vector
+from src.GeographicalCoordinate import geoCord
 
 
 

@@ -1,16 +1,9 @@
 #import py_compile
-
-__all__ = ["CartesianCoordinate",
-           "CartGeoConversions",
-           "CartesianVector",
-           "GeographicalCoordianate",
-           "DropCalculator",
-           "DataManager"]
-from CartesianCoordinate import *
-from CartGeoConversions import *
-from CartesianVector import *
-from DropCalculator import *
-from DataManager import *
+from src.CartesianCoordinate import *
+from src.CartGeoConversions import *
+from src.CartesianVector import *
+from src.DropCalculator import *
+from src.DataManager import *
 #py_compile.compile("CartesianCoordinate.py")
 #py_compile.compile("CartGeoConversions.py")
 #py_compile.compile("CartesianVector.py")
