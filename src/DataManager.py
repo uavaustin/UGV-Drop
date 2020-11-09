@@ -17,9 +17,9 @@ The DataManager class needs to import the following files and respective classes
 #TBD
 import math
 import numpy
-from .DropCalculator import dropCalculations
-from .GeographicalCoordinate import geoCord
-from .CartesianVector import vector
+from src.DropCalculator import dropCalculations
+from src.GeographicalCoordinate import geoCord
+from src.CartesianVector import vector
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 #from mpl_toolkits.basemap import Basemap
