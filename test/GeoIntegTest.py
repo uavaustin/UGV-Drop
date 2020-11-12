@@ -24,20 +24,27 @@ def pullGeoData(dropCalcSet: [], dropGeoCord: geoCord):
     lat = []
     lon = []
     alt = []
-    translator = cartGeoConv()
-    i = 0
-    while(i < tArr.length()):
+
+    i = len(tArr) - 1
+    while(i >= 0):
             pointObs = point(xArr[i], yArr[i], zArr[i])
-            pullPoint = translator.alignToOrgin(pointObs, dropGeoCord)
+            pullPoint = cartGeoConv.alignToOrgin(pointObs, dropGeoCord)
             lat.append(pullPoint.getLat())
             lon.append(pullPoint.getLon())
             alt.append(pullPoint.getAlt())
-            i = i+1
+            i = i - 1
     return [lat, lon, alt]
 
 #Testing
-dropCalculator = dropCalculations(vector(2, 2, 0.002), 20, geoCord(20.0001, 18.778, 0) , 1.2, 2.4, 6, 1.1928, 4.1928, 1.225, 17.0, 0.01)
+dropCalculator = dropCalculations(vector(2, 2, 0.002), 20, geoCord(20.0001, 18.778, 0), 1.2, 2.4, 6, 1.1928, 4.1928, 1.225, 17.0, 0.01)
 output = dropCalculator.calcDropSpotGeoCord()
 cartDataPull = dropCalculator.dataOutput()
-geoDataPull = (cartDataPull, geoCord)
-print(geoDataPull)
+geoDataPull = pullGeoData(cartDataPull, geoCord(20.0001, 18.778, 0))
+
+def formatPrint(set: [], i: int):
+    output = "Lat: " + str(set[0][i]) + " Lon: " + str(set[1][i]) + " Alt: " + str(set[2][i]) + "\n"
+    return output
+i = 0
+while (i < len(geoDataPull[0])):
+    print(formatPrint(geoDataPull, i))
+    i = i +1
