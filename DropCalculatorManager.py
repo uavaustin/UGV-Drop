@@ -22,11 +22,7 @@ Note: Projectile and UGV is used interchangeably though both terms represent the
 from src.DropCalculator import dropCalculations
 from src.GeographicalCoordinate import geoCord
 from src.CartesianVector import vector
-from src.DataManager import dropDataManager
-
-from mpl_toolkits import mplot3d
-import matplotlib.pyplot as plt
-import math
+from test.DataManager import dropDataManager
 
 """
 

@@ -16,9 +16,8 @@ from src.GeographicalCoordinate import geoCord
 The alignToOriginTool can be used to translate a geoCord to a point at a specified origin. This method is observation
 location independent. In other words, you just need to know how far the projectile will drop, not where it is.
     @param observationPoint The geoCord defined as the final position of the projectile if it were to drop based on the
-        calculated drop displacement vector from (0, 0, 0,). NOTE: This DOES NOT treat the projectile as the origin. The
-        drop location is still the origin. In retrospect, the point would be labeled more appropriately as the net
-        displacement vector
+        calculated drop displacement vector and land at (0, 0, 0,). 
+        NOTE: This DOES NOT treat the projectile as the origin. The drop location is still the origin. 
     @param originPoint The geoCord defined as the origin
 
 """

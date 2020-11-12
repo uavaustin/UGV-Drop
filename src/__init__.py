@@ -3,7 +3,6 @@ import src.CartesianCoordinate
 import src.CartGeoConversions
 import src.CartesianVector
 import src.DropCalculator
-import src.DataManager
 #py_compile.compile("CartesianCoordinate.py")
 #py_compile.compile("CartGeoConversions.py")
 #py_compile.compile("CartesianVector.py")
