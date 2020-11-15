@@ -27,8 +27,8 @@ class cartGeoConv:
     def alignToOrgin(pointObs: point, dropGeoCord: geoCord):
         # Naming convention (dimension)(location/origin)(R: radians, D: Degrees)
         #Cartesian of where to drop from
-        x = pointObs.getX()
-        y = pointObs.getY()
+        x = 0-pointObs.getX()
+        y = 0-pointObs.getY()
         alt = pointObs.getZ()
         R = 6378137 #equatorial raidus at earth
 

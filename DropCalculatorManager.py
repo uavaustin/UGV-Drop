@@ -46,7 +46,7 @@ deTest = dropCalculations(vVe, 20, ptD, 1.2, 2.4, 6, 1.1928, 4.1928, 1.225, 0.01
 """
 velV: The current velocity of the projectile in all three dimensions, expressed as a vector.
 """
-velV = vector(2,2,0.002)
+velV = vector(-2,-2,0.002)
 
 """
 currAlt: The current altitude of the projectile in meters, expressed as a float.
@@ -56,7 +56,7 @@ currAlt = 20.0
 """
 tarP: The current location of the UGV target in degrees, expressed as a geographical coordinate
 """
-tarP = geoCord(20.000,17.778,0)
+tarP = geoCord(38.272790, -76.4333410, 20)
 
 """
 coeff1: The coefficient of drag in the first phase, expressed as a float.
@@ -114,7 +114,7 @@ dropCalculator = dropCalculations(velV,
                           step)
 output = dropCalculator.calcDropSpotGeoCord()
 dataPull = dropCalculator.dataOutput()
-
+print("Drop Spot is: " + str(output))
 """
 Data Outputs. Make sure a calcDropSpotGeoCord() or calcDropSpot() method is called to load the data.
 """
