@@ -1,6 +1,3 @@
-import math
-from CartesianCoordinate import *
-
 class geoCord:
     def __init__(self, Latitude: float, Longitude: float, Altitude: float):
         self.__lat = Latitude
