@@ -22,7 +22,7 @@ while (i > 0):
     #Build a Random Test
     xV = random.uniform(0, 20.0)
     yV = random.uniform(0, 20.0)
-    zV = random.uniform(0, 20.0)
+    zV = random.uniform(5, 6)
     alt = random.uniform(10,100)
     dragP1 = random.uniform(1.01, 2)
     dragP2 = random.uniform(dragP1, 4)
@@ -33,7 +33,7 @@ while (i > 0):
     deploymentHeight = random.uniform(alt/3, alt/1.01)
     step = 0.01
 
-
+    
     dropCalculator = dropCalculations(vector(xV, yV, zV), 
                                             alt, 
                                             geoCord(38.272790, -76.433341, 0), 
@@ -45,11 +45,23 @@ while (i > 0):
                                             airDensity, 
                                             deploymentHeight, 
                                             step)
+    #dropCalculator.toggleDebug(True)
+    
     print("New Test \n")
     if rapid is False:
         input("Not yet set")
     else:
-        print("xV: " + str(xV))
+        print("vVector: " + str(vector(xV, yV, zV)))
+        print("airDensity: " + str(airDensity))
+        print("alt: " + str(alt))
+        print("deploymentHeight: " + str(deploymentHeight))
+        print("dragP1 " + str(dragP1))
+        print("dragP2: " + str(dragP2))
+        print("mass: " + str(mass))
+        print("systemArea1: " + str(systemArea1))
+        print("systemArea2: " + str(systemArea2))
+        print("airDensity: " + str(airDensity))
+
         input("Continue")
         print("Net Disp: " + str(dropCalculator.calcDropSpot()))
         print("Drop Loc: " + str(dropCalculator.calcDropSpotGeoCord()))
