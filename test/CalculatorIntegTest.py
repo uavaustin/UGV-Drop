@@ -22,16 +22,16 @@ while (i > 0):
     #Build a Random Test
     xV = random.uniform(0, 20.0)
     yV = random.uniform(0, 20.0)
-    zV = random.uniform(5, 6)
+    zV = random.uniform(1,5)  #Problematic
     alt = random.uniform(10,100)
-    dragP1 = random.uniform(1.01, 2)
+    dragP1 = random.uniform(0, 2)
     dragP2 = random.uniform(dragP1, 4)
     mass = random.uniform(3, 15)
     systemArea1 = random.uniform(1, 3)
     systemArea2 = random.uniform(systemArea1, 5)
     airDensity = 1.225
     deploymentHeight = random.uniform(alt/3, alt/1.01)
-    step = 0.01
+    step = 1
 
     
     dropCalculator = dropCalculations(vector(xV, yV, zV), 
@@ -45,7 +45,7 @@ while (i > 0):
                                             airDensity, 
                                             deploymentHeight, 
                                             step)
-    #dropCalculator.toggleDebug(True)
+    dropCalculator.toggleDebug(True)
     
     print("New Test \n")
     if rapid is False:

@@ -219,7 +219,7 @@ class dropCalculations:
 
     def dataOutput(self):
         if not self.__checkLoad:
-            raise Exception("Data was not loaded. Run the drop calculator before accessing data")
+            raise Exception("There is no data to load. Run the drop calculator before accessing data")
         dataDump = [self.__xArr, self.__yArr, self.__zArr, self.__zVelArr, self.__zAccArr, self.__tArr]
         return dataDump
 
