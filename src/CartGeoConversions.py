@@ -1,27 +1,27 @@
 """
 The CartGeoConversions converts cartesian information into a geographical coordinate based on a specified origin.
-
 @author: rishthak, jordan
-
 """
 import math
-from CartesianCoordinate import *
-from CartesianVector import *
-from GeographicalCoordinate import *
+import unittest
+from src.CartesianCoordinate import point
+from src.CartesianVector import vector
+from src.GeographicalCoordinate import geoCord
+
+
 
 """
 The alignToOriginTool can be used to translate a geoCord to a point at a specified origin. This method is observation
 location independent. In other words, you just need to know how far the projectile will drop, not where it is.
     @param observationPoint The geoCord defined as the final position of the projectile if it were to drop based on the
-        calculated drop displacement vector and land at (0, 0, 0,).
-        NOTE: This DOES NOT treat the projectile as the origin. The drop location is still the origin.
+        calculated drop displacement vector and land at (0, 0, 0,). 
+        NOTE: This DOES NOT treat the projectile as the origin. The drop location is still the origin. 
     @param originPoint The geoCord defined as the origin
-
 """
 
 class cartGeoConv:
 
-    def alignToOrgin(pointObs: point, dropGeoCord: geoCord):
+    def alignToOrigin(pointObs: point, dropGeoCord: geoCord):
         # Naming convention (dimension)(location/origin)(R: radians, D: Degrees)
         #Cartesian of where to drop from
         x = 0-pointObs.getX()

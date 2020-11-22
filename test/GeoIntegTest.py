@@ -31,7 +31,7 @@ def pullGeoData(dropCalcSet: [], dropGeoCord: geoCord):
     i = len(tArr) - 1
     while(i >= 0):
             pointObs = point(xArr[i], yArr[i], zArr[i])
-            pullPoint = cartGeoConv.alignToOrgin(pointObs, dropGeoCord)
+            pullPoint = cartGeoConv.alignToOrigin(pointObs, dropGeoCord)
             lat.append(pullPoint.getLat())
             lon.append(pullPoint.getLon())
             alt.append(pullPoint.getAlt())
