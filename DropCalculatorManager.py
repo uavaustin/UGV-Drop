@@ -10,7 +10,7 @@ Files Needed:
                         CartGeoConversions.py,
                         DropCalculator.py,
                         GeographicalCoordinate.py,
-                        DataManager.py )
+                        DropDataManager.py (TO BE ADDED))
 
 
 Note: Projectile and UGV is used interchangeably though both terms represent the UGV.
@@ -125,11 +125,3 @@ manager.showData()
 """
 Toggle Print Outputs to Debug Data
 """
-
-
-
-
-
-
-
-

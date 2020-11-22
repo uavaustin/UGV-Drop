@@ -1,9 +1,3 @@
-"""
-The CartesianVector file contains the vector class used to define a vector in three dimensions.
-
-@author: rishthak
-
-"""
 class vector:
     def __init__(self, xComp: float, yComp: float, zComp: float):
         self.__x = xComp

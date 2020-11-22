@@ -1,3 +1,6 @@
+import math
+from CartesianCoordinate import *
+
 class geoCord:
     def __init__(self, Latitude: float, Longitude: float, Altitude: float):
         self.__lat = Latitude
@@ -45,5 +48,4 @@ class alignToOriginTool:
         self.__obsPoint = observationPoint
 
     def updateOrigin(self, originPoint: geoCord):
-        self.__orgPoint = pointOrigin
-
+        self.__orgPoint = originPoint

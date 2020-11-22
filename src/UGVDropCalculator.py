@@ -8,7 +8,7 @@ Inputs:
 
 Assumptions:
     The coefficient of drag for parachute is known.
-    The drag areas are known.
+    The Projectile vertically when during the time the chute is being deployed.
 
 @author: rishthak
 
@@ -16,12 +16,11 @@ Assumptions:
 import math
 import time
 import numpy
-from src.CartesianCoordinate import point
-from src.CartesianVector import vector
-from src.GeographicalCoordinate import geoCord
-from src.CartGeoConversions import cartGeoConv
+from CartesianGeographicalConversions import *
+
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
+import unittest
 
 
 
@@ -35,7 +34,7 @@ The dropCalculations class specifies the location and time? when a projectile sh
 
     Input Variables:
      @param velocityVector      The initial velocity of the projectile
-     @param currentAltitude     The current altitude of the projectile
+     @param obsPoint            The location of the projectile
      @param targetPoint         The location of the target
      @param coeffOfDragPhase1   The coefficient of drag during phase 1
      @param coeffOfDragPhase2   The coefficient of drag during phase 2
@@ -44,8 +43,8 @@ The dropCalculations class specifies the location and time? when a projectile sh
      @param systemArea2         The area of the projectile in phase 2
      @param airDensity          The density of the air
      @param step                The time step for the solver
-     @param deploymentHeight    The height at which phase 2 is initiated
-    
+     @param deploymentHeight    The height at which phase 2 is intiated
+
 
 TO USE THIS CLASS:
 1. Create an instance with the properties of the projectile.
@@ -56,7 +55,7 @@ TO USE THIS CLASS:
 class dropCalculations:
     def __init__(self,
                 velocityVector: vector,
-                currentAltitude: float,
+                obsPoint: geoCord,
                 targetPoint: geoCord,
                 coeffOfDragPhase1: float,
                 coeffOfDragPhase2: float,
@@ -64,9 +63,15 @@ class dropCalculations:
                 systemArea1: float,
                 systemArea2: float,
                 airDensity: float,
-                deploymentHeight: float,
-                step: float ):
+                step: float,
+                deploymentHeight: float):
 
+        #Initializing the translator
+        self.__translator = pointConversionTool(obsPoint, targetPoint)
+
+        #NO LONGER NEEDED (Or Accurate)
+        projectileLoc = self.__translator.alignToOrigin(obsPoint)
+        targetLoc = point(0, 0, 0)
 
         #Phase 1 Phase 2 Drag Coefficients
         self.__dragCoeff1 = coeffOfDragPhase1
@@ -79,9 +84,15 @@ class dropCalculations:
         self.__sysA1 = systemArea1
         self.__sysA2 = systemArea2
 
+        # UGV/Projectile Location NO LONGER NEEDED
+        self.__projX = projectileLoc.getX()
+        self.__projY = projectileLoc.getY()
+        self.__projZ = projectileLoc.getZ()
 
-        #  Locations in Cartesian
-        self.__projZ = currentAltitude
+        # Target Location
+        self.__tarX = targetLoc.getX()
+        self.__tarY = targetLoc.getY()
+        self.__tarZ = targetLoc.getZ()
 
         #Only Used Target Location
         self.__targetGeo = targetPoint
@@ -144,7 +155,7 @@ class dropCalculations:
 
     def calcDropSpotGeoCord(self):
         coordinate = self.calcDropSpot()
-        output = cartGeoConv.alignToOrgin(coordinate, self.__targetGeo)
+        output = self.__translator.pointToOrgS(coordinate, self.__targetGeo)
         return output
 
     def forcesCalculator(self, dragCoeff: float, surfaceArea: float, vThisStep: vector):
@@ -170,11 +181,12 @@ class dropCalculations:
 
         while(abs(self.__projZ + sCurr.getZ()) >  deploymentHeight):
 
+            print("Current Altitude: " + str(self.__projZ + sCurr.getZ()))
             aNext = self.forcesCalculator(self.__dragCoeff1, a1, vCurr)
             vCurr = vector(vCurr.getX() + aNext.getX() * step,
                            vCurr.getY() + aNext.getY() * step,
                            vCurr.getZ() + aNext.getZ() * step)
-
+            print("vCurr: " + str(vCurr))
             sCurr = point(sCurr.getX() + vCurr.getX() * step,
                           sCurr.getY() + vCurr.getY() * step,
                           sCurr.getZ() + vCurr.getZ() * step)

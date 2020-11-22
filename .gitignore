@@ -1,0 +1,7 @@
+*__pycache__*
+*.pyc
+csvgeo.csv
+csvGeoUse.csv
+geoData.csv
+geoData.xlsx
+*.idea*
