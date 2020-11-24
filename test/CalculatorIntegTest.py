@@ -37,7 +37,7 @@ while (i > 0):
     dropCalculator = dropCalculations(vector(xV, yV, zV), 
                                             alt, 
                                             geoCord(38.272790, -76.433341, 0), 
-                                            dragP2, 
+                                            dragP1, 
                                             dragP2, 
                                             mass, 
                                             systemArea1, 
@@ -45,12 +45,24 @@ while (i > 0):
                                             airDensity, 
                                             deploymentHeight, 
                                             step)
+    """ dropCalculator = dropCalculations(vector(-2, -2, 0.002),
+                          20.0,
+                          geoCord(38.272790, -76.4333410, 20),
+                          1.2,
+                          2.4,
+                          6,
+                          1.1928,
+                          4.1928,
+                          1.225,
+                          17,
+                          0.012) """
     dropCalculator.toggleDebug(True)
     
     print("New Test \n")
     if rapid is False:
         input("Not yet set")
     else:
+        print("NEW TEST \n\n")
         print("vVector: " + str(vector(xV, yV, zV)))
         print("airDensity: " + str(airDensity))
         print("alt: " + str(alt))
@@ -60,12 +72,19 @@ while (i > 0):
         print("mass: " + str(mass))
         print("systemArea1: " + str(systemArea1))
         print("systemArea2: " + str(systemArea2))
-        print("airDensity: " + str(airDensity))
-
-        input("Continue")
-        print("Net Disp: " + str(dropCalculator.calcDropSpot()))
-        print("Drop Loc: " + str(dropCalculator.calcDropSpotGeoCord()))
-        input("Continue")
+        print("airDensity: " + str(airDensity) + "\n\n")
+        fDrag1 = dragP1*systemArea1*((1.225*(zV**2))/2)
+        fDrag2 = dragP1*systemArea1*((1.225*(zV**2))/2)
+        if(fDrag1 > mass*9.81 or fDrag2 > mass*9.81):
+            print("Force due to drag exceeds force due to gravity")
+        else:
+            print("Force due to drag does not exceed force due to gravity")
+        proceed = input("Continue (Y/N)? ")
+        if(proceed == "Y" or proceed == "y"):
+            input("Continued")
+            print("Net Disp: " + str(dropCalculator.calcDropSpot()))
+            print("Drop Loc: " + str(dropCalculator.calcDropSpotGeoCord()))
+            input("Continue To Next Test")
     
     #Decrement
     i = i - 1
