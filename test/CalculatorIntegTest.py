@@ -22,7 +22,8 @@ while (i > 0):
     #Build a Random Test
     xV = random.uniform(0, 20.0)
     yV = random.uniform(0, 20.0)
-    zV = random.uniform(1,5)  #Problematic
+    zV = random.uniform(0,1)  #Problematic
+    zV = 0
     alt = random.uniform(10,100)
     dragP1 = random.uniform(0, 2)
     dragP2 = random.uniform(dragP1, 4)
@@ -31,7 +32,7 @@ while (i > 0):
     systemArea2 = random.uniform(systemArea1, 5)
     airDensity = 1.225
     deploymentHeight = random.uniform(alt/3, alt/1.01)
-    step = 1
+    step = 0.01
 
     
     dropCalculator = dropCalculations(vector(xV, yV, zV), 
@@ -73,12 +74,13 @@ while (i > 0):
         print("systemArea1: " + str(systemArea1))
         print("systemArea2: " + str(systemArea2))
         print("airDensity: " + str(airDensity) + "\n\n")
-        fDrag1 = dragP1*systemArea1*((1.225*(zV**2))/2)
-        fDrag2 = dragP1*systemArea1*((1.225*(zV**2))/2)
+        fDrag1 = (-9.81 + ((.5)*airDensity*dragP1*systemArea1*(zV**2)))*mass
+        fDrag2 = (-9.81 + ((.5)*airDensity*dragP1*systemArea1*(zV**2)))*mass
+        print("fDrag1: " + str(fDrag1) + "fDrag2: " + str(fDrag2))
         if(fDrag1 > mass*9.81 or fDrag2 > mass*9.81):
-            print("Force due to drag exceeds force due to gravity")
+            print("Force due to drag EXCEEDS force due to gravity")
         else:
-            print("Force due to drag does not exceed force due to gravity")
+            print("Force due to drag DOES NOT exceed force due to gravity")
         proceed = input("Continue (Y/N)? ")
         if(proceed == "Y" or proceed == "y"):
             input("Continued")

@@ -144,11 +144,13 @@ class dropCalculations:
         aX = (-1*numpy.sign(self.__vX))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getX()**2))/self.__mass
         aY= (-1*numpy.sign(self.__vY))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getY()**2))/self.__mass
         aZ = self.__g + ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getZ()**2))/self.__mass
+        """ if (aZ >= 0):
+            raise ValueError("The object is accelerating upwards!") """
 
         #Debugging Print
         if self.__debugPrintToggle:
-            print("step")
-            print(str(vector(aX, aY, aZ)))
+            print("\nstep\n")
+            print("Acceleration Vector: " + str(vector(aX, aY, aZ)))
         #time.sleep(1)
         return vector(aX, aY, aZ)
 
@@ -183,9 +185,9 @@ class dropCalculations:
 
             #Debugging Print Statements
             if self.__debugPrintToggle:
-                print("Current Altitude: " + str(self.__projZ + sCurr.getZ()))
+                print("\nCurrent Altitude: " + str(self.__projZ + sCurr.getZ()))
                 print("vCurr: " + str(vCurr))
-                print("sCurr" + str(sCurr))
+                print("sCurr: " + str(sCurr))
 
         while(abs(sCurr.getZ()) < self.__projZ):
 
@@ -211,15 +213,15 @@ class dropCalculations:
             #Debugging Print Toggle
             # Debugging Print Statements
             if self.__debugPrintToggle:
-                print("Current Altitude: " + str(self.__projZ + sCurr.getZ()))
+                print("\nCurrent Altitude: " + str(self.__projZ + sCurr.getZ()))
                 print("vCurr: " + str(vCurr))
-                print("sCurr" + str(sCurr))
+                print("sCurr: " + str(sCurr))
 
         return sCurr
 
     def dataOutput(self):
         if not self.__checkLoad:
-            raise Exception("There is no data to load. Run the drop calculator before accessing data")
+            raise ValueError("There is no data to load. Run the drop calculator before accessing data")
         dataDump = [self.__xArr, self.__yArr, self.__zArr, self.__zVelArr, self.__zAccArr, self.__tArr]
         return dataDump
 
