@@ -112,6 +112,11 @@ dropCalculator = dropCalculations(velV,
                           airDens,
                           phase2Alt,
                           step)
+"""
+Toggle Print Outputs to Debug Data While Calculation Occurs
+"""
+dropCalculator.toggleDebug(True)
+
 output = dropCalculator.calcDropSpotGeoCord()
 dataPull = dropCalculator.dataOutput()
 print("Drop Spot is: " + str(output))
@@ -125,3 +130,4 @@ manager.showData()
 """
 Toggle Print Outputs to Debug Data
 """
+

@@ -141,15 +141,19 @@ class dropCalculations:
         return output
 
     def forcesCalculator(self, dragCoeff: float, surfaceArea: float, vThisStep: vector):
-        aX = (-1*numpy.sign(self.__vX))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getX()**2))/self.__mass
-        aY= (-1*numpy.sign(self.__vY))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getY()**2))/self.__mass
-        aZ = self.__g + ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getZ()**2))/self.__mass
-        """ if (aZ >= 0):
-            raise ValueError("The object is accelerating upwards!") """
+        aX = (-1*numpy.sign(vThisStep.getX()))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getX()**2))/self.__mass
+        aY= (-1*numpy.sign(vThisStep.getY()))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getY()**2))/self.__mass
+        aZ = self.__g + (-1*numpy.sign(vThisStep.getZ())*.5*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getZ()**2))/self.__mass
+        #aZ = self.__g + ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getZ()**2))/self.__mass
+        #if (aZ >= 0):
+            #raise ValueError("The object is accelerating upwards!")
 
-        #Debugging Print
+        #Debugging
         if self.__debugPrintToggle:
             print("\nstep\n")
+            if (False):
+                print("Delay ON")
+                time.sleep(0.5)
             print("Acceleration Vector: " + str(vector(aX, aY, aZ)))
         #time.sleep(1)
         return vector(aX, aY, aZ)
@@ -165,7 +169,7 @@ class dropCalculations:
 
         while(abs(self.__projZ + sCurr.getZ()) >  deploymentHeight):
 
-            aNext = self.forcesCalculator(self.__dragCoeff1, a1, vCurr)
+            aNext = self.forcesCalculator(self.__dragCoeff1, self.__sysA1, vCurr)
             vCurr = vector(vCurr.getX() + aNext.getX() * step,
                            vCurr.getY() + aNext.getY() * step,
                            vCurr.getZ() + aNext.getZ() * step)
@@ -191,7 +195,7 @@ class dropCalculations:
 
         while(abs(sCurr.getZ()) < self.__projZ):
 
-            aNext = self.forcesCalculator(self.__dragCoeff2, a2 , vCurr)
+            aNext = self.forcesCalculator(self.__dragCoeff2, self.__sysA2, vCurr)
             vCurr = vector(vCurr.getX() + aNext.getX() * step,
                            vCurr.getY() + aNext.getY() * step,
                            vCurr.getZ() + aNext.getZ() * step)

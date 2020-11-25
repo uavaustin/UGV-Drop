@@ -13,6 +13,7 @@ import matplotlib
 import random
 from DataManager import dropDataManager
 
+
 #
 i=20
 rapid = True
@@ -22,8 +23,7 @@ while (i > 0):
     #Build a Random Test
     xV = random.uniform(0, 20.0)
     yV = random.uniform(0, 20.0)
-    zV = random.uniform(0,1)  #Problematic
-    zV = 0
+    zV = random.uniform(0,5)  #Problematic
     alt = random.uniform(10,100)
     dragP1 = random.uniform(0, 2)
     dragP2 = random.uniform(dragP1, 4)
@@ -46,7 +46,7 @@ while (i > 0):
                                             airDensity, 
                                             deploymentHeight, 
                                             step)
-    """ dropCalculator = dropCalculations(vector(-2, -2, 0.002),
+    dropCalculator = dropCalculations(vector(-2, -2, 0.002),
                           20.0,
                           geoCord(38.272790, -76.4333410, 20),
                           1.2,
@@ -56,7 +56,7 @@ while (i > 0):
                           4.1928,
                           1.225,
                           17,
-                          0.012) """
+                          0.012)
     dropCalculator.toggleDebug(True)
     
     print("New Test \n")
@@ -74,19 +74,19 @@ while (i > 0):
         print("systemArea1: " + str(systemArea1))
         print("systemArea2: " + str(systemArea2))
         print("airDensity: " + str(airDensity) + "\n\n")
-        fDrag1 = (-9.81 + ((.5)*airDensity*dragP1*systemArea1*(zV**2)))*mass
-        fDrag2 = (-9.81 + ((.5)*airDensity*dragP1*systemArea1*(zV**2)))*mass
-        print("fDrag1: " + str(fDrag1) + "fDrag2: " + str(fDrag2))
-        if(fDrag1 > mass*9.81 or fDrag2 > mass*9.81):
-            print("Force due to drag EXCEEDS force due to gravity")
-        else:
-            print("Force due to drag DOES NOT exceed force due to gravity")
+        
         proceed = input("Continue (Y/N)? ")
-        if(proceed == "Y" or proceed == "y"):
+        if(proceed == "Y" or proceed == "y" or ""):
             input("Continued")
             print("Net Disp: " + str(dropCalculator.calcDropSpot()))
             print("Drop Loc: " + str(dropCalculator.calcDropSpotGeoCord()))
             input("Continue To Next Test")
+        
+        manager = dropDataManager(dropCalculator.dataOutput())
+        print("Statement reached")
+        manager.buildAll()
+        manager.showData()
+    
     
     #Decrement
     i = i - 1
