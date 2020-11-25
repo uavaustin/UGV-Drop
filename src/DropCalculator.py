@@ -100,8 +100,9 @@ class dropCalculations:
         self.__dataSet = []
         self.__checkLoad = False
 
-        #DebuggingToggle
+        #Debugging
         self.__debugPrintToggle = False
+        self.__error = 0
 
     def updateLocation(self, x: float, y: float, z: float):
         self.__projX = x
@@ -221,7 +222,9 @@ class dropCalculations:
                 print("vCurr: " + str(vCurr))
                 print("sCurr: " + str(sCurr))
 
-        return sCurr
+        output = vector(sCurr.getX(), sCurr.getY(), self.__projZ)
+        self.__error = self.__projZ + sCurr.getZ()
+        return output
 
     def dataOutput(self):
         if not self.__checkLoad:

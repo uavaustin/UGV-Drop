@@ -37,7 +37,7 @@ while (i > 0):
     
     dropCalculator = dropCalculations(vector(xV, yV, zV), 
                                             alt, 
-                                            geoCord(38.272790, -76.433341, 0), 
+                                            geoCord(38.285828, -76.408543 , 0), 
                                             dragP1, 
                                             dragP2, 
                                             mass, 
@@ -46,7 +46,7 @@ while (i > 0):
                                             airDensity, 
                                             deploymentHeight, 
                                             step)
-    dropCalculator = dropCalculations(vector(-2, -2, 0.002),
+    """ dropCalculator = dropCalculations(vector(-2, -2, 0.002),
                           20.0,
                           geoCord(38.272790, -76.4333410, 20),
                           1.2,
@@ -56,8 +56,8 @@ while (i > 0):
                           4.1928,
                           1.225,
                           17,
-                          0.012)
-    dropCalculator.toggleDebug(True)
+                          0.012) """
+    dropCalculator.toggleDebug(False)
     
     print("New Test \n")
     if rapid is False:
@@ -80,13 +80,14 @@ while (i > 0):
             input("Continued")
             print("Net Disp: " + str(dropCalculator.calcDropSpot()))
             print("Drop Loc: " + str(dropCalculator.calcDropSpotGeoCord()))
-            input("Continue To Next Test")
+            manager = dropDataManager(dropCalculator.dataOutput())
+            print("Data")
+            manager.buildAll()
+            manager.showData()
+            
         
-        manager = dropDataManager(dropCalculator.dataOutput())
-        print("Statement reached")
-        manager.buildAll()
-        manager.showData()
-    
+
+        input("Continue To Next Test")
     
     #Decrement
     i = i - 1
