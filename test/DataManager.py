@@ -22,6 +22,7 @@ from src.GeographicalCoordinate import geoCord
 from src.CartesianVector import vector
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 #from mpl_toolkits.basemap import Basemap
 
 """
@@ -55,28 +56,29 @@ class dropDataManager:
 
     def buildAltChart(self):
         plt.figure(1)
-        plt.scatter(self.__tArr, self.__zArr, c='r', marker='o')
+        plt.scatter(self.__tArr, self.__zArr, c='tab:red', marker='o')
         plt.xlabel("Time")
         plt.ylabel("Altitude")
 
     def buildVelChart(self):
         plt.figure(2)
-        plt.scatter(self.__tArr, self.__zVelArr, c='g', marker='o')
+        plt.scatter(self.__tArr, self.__zVelArr, c='tab:green', marker='o')
         plt.xlabel("Time")
         plt.ylabel("Velocity")
 
     def buildAccChart(self):
         plt.figure(3)
-        plt.scatter(self.__tArr, self.__zAccArr, c='b', marker='o')
+        plt.scatter(self.__tArr, self.__zAccArr, c='tab:blue', marker='o')
         plt.xlabel("Time")
         plt.ylabel("Acceleration")
-        plt.plot([0, self.__tArr[-1]], [-9.81, -9.81], color='k', linestyle='-', linewidth=2)
+        plt.plot([0, self.__tArr[-1]], [-9.81, -9.81], color='tab:orange', linestyle='-', linewidth=2)
+        
 
     def build3DPlot(self):
         plt.figure(4)
         fig = plt.figure(4)
         ax = fig.add_subplot(1, 1, 1, projection='3d')
-        ax.scatter3D(self.__xArr, self.__yArr, self.__zArr, c='c', marker='o')
+        ax.scatter3D(self.__xArr, self.__yArr, self.__zArr, c='tab:cyan', marker='o')
         self.set_axes_equal(ax)
         ax.set_xlabel("X")
         ax.set_ylabel("Y")
@@ -89,7 +91,7 @@ class dropDataManager:
         nAx = nX + nY
         nAx = numpy.array(nAx ** (1 / 2))
         finalBaseAxis = nAx.tolist()
-        plt.scatter(finalBaseAxis, self.__zArr, c='m', marker='o')
+        plt.scatter(finalBaseAxis, self.__zArr, c='tab:purple', marker='o')
         plt.xlabel("Along Axis of Motion")
         plt.ylabel("Altitude")
         plt.axis('equal')
