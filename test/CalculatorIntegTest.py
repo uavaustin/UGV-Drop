@@ -80,7 +80,7 @@ while (i > 0):
             input("Continued")
             print("Net Disp: " + str(dropCalculator.calcDropSpot()))
             print("Drop Loc: " + str(dropCalculator.calcDropSpotGeoCord()))
-            print("Net Vert disp: " + str(dropCalculator.returnNetDisp()))
+            print("Error: " + str(dropCalculator.returnError()))
             manager = dropDataManager(dropCalculator.dataOutput())
             print("Data")
             manager.buildAll()

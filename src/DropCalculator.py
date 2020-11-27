@@ -12,6 +12,7 @@ Assumptions:
 import math
 import time
 import numpy
+import warnings
 from src.CartesianCoordinate import point
 from src.CartesianVector import vector
 from src.GeographicalCoordinate import geoCord
@@ -99,7 +100,6 @@ class dropCalculations:
         self.__tArr = []
         self.__dataSet = []
         self.__checkLoad = False
-        self.__netVertDisp = 0.0
 
         #Debugging
         self.__debugPrintToggle = False
@@ -139,6 +139,13 @@ class dropCalculations:
 
     def calcDropSpotGeoCord(self):
         coordinate = self.calcDropSpot()
+        if (self.__error >= 1):
+            raise ValueError("Error is greater than 1 meter!: " + str(self.__error))
+        elif (self.__error >= 0.5):
+            warnings.warn("Error between 0.5 to 1.0 meters: " + str(self.__error))
+        elif (self.__error >= 0.1):
+            warnings.warn("Error between 0.1 to 0.5 meters: " + str(self.__error))
+
         output = cartGeoConv.alignToOrigin(coordinate, self.__targetGeo)
         return output
 
@@ -178,8 +185,6 @@ class dropCalculations:
                           sCurr.getY() + vCurr.getY() * step,
                           sCurr.getZ() + vCurr.getZ() * step)
 
-            if (sCurr.getZ() <= self.__projZ):
-                self.__netVertDisp = sCurr.getZ() - self.__projZ  
 
             #Data Grab
             tTotal = tTotal + self.__step
@@ -206,9 +211,7 @@ class dropCalculations:
             sCurr = point(sCurr.getX() + vCurr.getX() * step,
                           sCurr.getY() + vCurr.getY() * step,
                           sCurr.getZ() + vCurr.getZ() * step)
-
-            if (sCurr.getZ() <= self.__projZ):
-                self.__netVertDisp = sCurr.getZ() - self.__projZ                         
+                     
 
 
             #Data Grab
@@ -227,13 +230,13 @@ class dropCalculations:
                 print("vCurr: " + str(vCurr))
                 print("sCurr: " + str(sCurr))
 
-        output = vector(sCurr.getX(), sCurr.getY(), self.__projZ)
-        self.__error = self.__projZ + sCurr.getZ()
+        output = vector(sCurr.getX(), sCurr.getY(), sCurr.getZ())
+        self.__error = abs(sCurr.getZ()) - self.__projZ
         return output
-
-    def returnNetDisp(self):
-        return self.__netVertDisp/2
     
+    def returnError(self):
+        return self.__error
+        
     def dataOutput(self):
         if not self.__checkLoad:
             raise ValueError("There is no data to load. Run the drop calculator before accessing data")

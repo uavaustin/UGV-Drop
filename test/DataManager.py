@@ -70,6 +70,7 @@ class dropDataManager:
         plt.scatter(self.__tArr, self.__zAccArr, c='b', marker='o')
         plt.xlabel("Time")
         plt.ylabel("Acceleration")
+        plt.plot([0, self.__tArr[-1]], [-9.81, -9.81], color='k', linestyle='-', linewidth=2)
 
     def build3DPlot(self):
         plt.figure(4)
