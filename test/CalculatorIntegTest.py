@@ -23,7 +23,7 @@ while (i > 0):
     #Build a Random Test
     xV = random.uniform(0, 20.0)
     yV = random.uniform(0, 20.0)
-    zV = random.uniform(0,5)  #Problematic
+    zV = random.uniform(0,5)
     alt = random.uniform(10,100)
     dragP1 = random.uniform(0, 2)
     dragP2 = random.uniform(dragP1, 4)
@@ -80,10 +80,12 @@ while (i > 0):
             input("Continued")
             print("Net Disp: " + str(dropCalculator.calcDropSpot()))
             print("Drop Loc: " + str(dropCalculator.calcDropSpotGeoCord()))
+            print("Net Vert disp: " + str(dropCalculator.returnNetDisp()))
             manager = dropDataManager(dropCalculator.dataOutput())
             print("Data")
             manager.buildAll()
             manager.showData()
+            
             
         
 

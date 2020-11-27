@@ -99,6 +99,7 @@ class dropCalculations:
         self.__tArr = []
         self.__dataSet = []
         self.__checkLoad = False
+        self.__netVertDisp = 0.0
 
         #Debugging
         self.__debugPrintToggle = False
@@ -145,9 +146,7 @@ class dropCalculations:
         aX = (-1*numpy.sign(vThisStep.getX()))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getX()**2))/self.__mass
         aY= (-1*numpy.sign(vThisStep.getY()))*((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getY()**2))/self.__mass
         aZ = self.__g + (-1*numpy.sign(vThisStep.getZ())*.5*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getZ()**2))/self.__mass
-        #aZ = self.__g + ((.5)*self.__airDensity*dragCoeff*surfaceArea*(vThisStep.getZ()**2))/self.__mass
-        #if (aZ >= 0):
-            #raise ValueError("The object is accelerating upwards!")
+
 
         #Debugging
         if self.__debugPrintToggle:
@@ -179,6 +178,9 @@ class dropCalculations:
                           sCurr.getY() + vCurr.getY() * step,
                           sCurr.getZ() + vCurr.getZ() * step)
 
+            if (sCurr.getZ() <= self.__projZ):
+                self.__netVertDisp = sCurr.getZ() - self.__projZ  
+
             #Data Grab
             tTotal = tTotal + self.__step
             self.__xArr.append(sCurr.getX())
@@ -205,6 +207,9 @@ class dropCalculations:
                           sCurr.getY() + vCurr.getY() * step,
                           sCurr.getZ() + vCurr.getZ() * step)
 
+            if (sCurr.getZ() <= self.__projZ):
+                self.__netVertDisp = sCurr.getZ() - self.__projZ                         
+
 
             #Data Grab
             tTotal = tTotal + self.__step
@@ -226,6 +231,9 @@ class dropCalculations:
         self.__error = self.__projZ + sCurr.getZ()
         return output
 
+    def returnNetDisp(self):
+        return self.__netVertDisp/2
+    
     def dataOutput(self):
         if not self.__checkLoad:
             raise ValueError("There is no data to load. Run the drop calculator before accessing data")
@@ -233,4 +241,4 @@ class dropCalculations:
         return dataDump
 
     def toggleDebug(self, status: bool):
-        self.__debugPrintToggle = status
+        self.__debugPrintToggle = status    
