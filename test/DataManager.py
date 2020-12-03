@@ -22,7 +22,6 @@ from src.GeographicalCoordinate import geoCord
 from src.CartesianVector import vector
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 #from mpl_toolkits.basemap import Basemap
 
 """
